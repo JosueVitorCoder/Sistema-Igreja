@@ -1,4 +1,4 @@
-package br.com.senac.taskmanager.igreja;
+package br.com.igreja;
 
 /**
  *

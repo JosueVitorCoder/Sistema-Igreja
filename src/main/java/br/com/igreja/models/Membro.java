@@ -8,25 +8,38 @@ import br.com.igreja.models.enums.Cargo;
 import br.com.igreja.models.enums.Sexo;
 import br.com.igreja.models.enums.StatusCivil;
 import java.awt.Image;
+import java.time.LocalDate;
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author demi
  */
-
+@Entity
+@Table(name = "membros")
 public class Membro {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String nome; 
-    private Date dataDeNascimento;
+    @Column(name = "data_nascimento")
+    private LocalDate dataDeNascimento;
     private String cpf;
     private String endereco;
     private String numero;
     private Sexo sexo;
     private Cargo cargo;
+    @Column(name = "status_civil")
     private StatusCivil statusCivil;
-    private Image foto;
+    private Byte[] foto;
 
-    public Membro(String nome, Date dataDeNascimento, String cpf, String endereco, String numero, Sexo sexo, Cargo cargo, StatusCivil statusCivil, Image foto) {
+    public Membro(String nome, LocalDate dataDeNascimento, String cpf, String endereco, String numero, Sexo sexo, Cargo cargo, StatusCivil statusCivil, Byte[] foto) {
         this.nome = nome;
         this.dataDeNascimento = dataDeNascimento;
         this.cpf = cpf;
@@ -38,7 +51,7 @@ public class Membro {
         this.foto = foto;
     }
 
-    public Membro(String nome, Date dataDeNascimento, String cpf, String endereco, String numero, Sexo sexo, Cargo cargo, StatusCivil statusCivil) {
+    public Membro(String nome, LocalDate dataDeNascimento, String cpf, String endereco, String numero, Sexo sexo, Cargo cargo, StatusCivil statusCivil) {
         this.nome = nome;
         this.dataDeNascimento = dataDeNascimento;
         this.cpf = cpf;
@@ -61,11 +74,11 @@ public class Membro {
         this.nome = nome;
     }
 
-    public Date getDataDeNascimento() {
+    public LocalDate getDataDeNascimento() {
         return dataDeNascimento;
     }
 
-    public void setDataDeNascimento(Date dataDeNascimento) {
+    public void setDataDeNascimento(LocalDate dataDeNascimento) {
         this.dataDeNascimento = dataDeNascimento;
     }
 
@@ -117,14 +130,11 @@ public class Membro {
         this.statusCivil = statusCivil;
     }
 
-    public Image getFoto() {
+    public Byte[] getFoto() {
         return foto;
     }
 
-    public void setFoto(Image foto) {
+    public void setFoto(Byte[] foto) {
         this.foto = foto;
     }
-    
-    
-    
 }

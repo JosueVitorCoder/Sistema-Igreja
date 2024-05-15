@@ -4,6 +4,8 @@
  */
 package br.com.igreja.views;
 
+import br.com.igreja.views.internal.TabelaDeMembros;
+import br.com.igreja.views.internal.TelaDeCadastroDeMembros;
 import java.awt.Dimension;
 
 /**

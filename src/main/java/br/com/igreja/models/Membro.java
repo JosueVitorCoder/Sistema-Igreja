@@ -29,7 +29,7 @@ public class Membro {
     private Long id;
     private String nome; 
     @Column(name = "data_nascimento")
-    private LocalDate dataDeNascimento;
+    private Date dataDeNascimento;
     private String cpf;
     private String endereco;
     private String numero;
@@ -39,7 +39,7 @@ public class Membro {
     private StatusCivil statusCivil;
     private Byte[] foto;
 
-    public Membro(String nome, LocalDate dataDeNascimento, String cpf, String endereco, String numero, Sexo sexo, Cargo cargo, StatusCivil statusCivil, Byte[] foto) {
+    public Membro(String nome, Date dataDeNascimento, String cpf, String endereco, String numero, Sexo sexo, Cargo cargo, StatusCivil statusCivil, Byte[] foto) {
         this.nome = nome;
         this.dataDeNascimento = dataDeNascimento;
         this.cpf = cpf;
@@ -51,7 +51,7 @@ public class Membro {
         this.foto = foto;
     }
 
-    public Membro(String nome, LocalDate dataDeNascimento, String cpf, String endereco, String numero, Sexo sexo, Cargo cargo, StatusCivil statusCivil) {
+    public Membro(String nome, Date dataDeNascimento, String cpf, String endereco, String numero, Sexo sexo, Cargo cargo, StatusCivil statusCivil) {
         this.nome = nome;
         this.dataDeNascimento = dataDeNascimento;
         this.cpf = cpf;
@@ -74,11 +74,11 @@ public class Membro {
         this.nome = nome;
     }
 
-    public LocalDate getDataDeNascimento() {
+    public Date getDataDeNascimento() {
         return dataDeNascimento;
     }
 
-    public void setDataDeNascimento(LocalDate dataDeNascimento) {
+    public void setDataDeNascimento(Date dataDeNascimento) {
         this.dataDeNascimento = dataDeNascimento;
     }
 

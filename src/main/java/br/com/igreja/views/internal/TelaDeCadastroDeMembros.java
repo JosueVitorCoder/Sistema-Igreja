@@ -2,12 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
-package br.com.igreja.views;
+package br.com.igreja.views.internal;
 
+import br.com.igreja.models.Membro;
+import br.com.igreja.models.enums.Cargo;
+import br.com.igreja.models.enums.Sexo;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -274,6 +281,7 @@ public class TelaDeCadastroDeMembros extends javax.swing.JInternalFrame {
 
     private void botaoCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCancelarActionPerformed
         // TODO add your handling code here:
+        cadastrar();
     }//GEN-LAST:event_botaoCancelarActionPerformed
 
     private void botaoEditarImgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEditarImgActionPerformed
@@ -334,4 +342,69 @@ public class TelaDeCadastroDeMembros extends javax.swing.JInternalFrame {
         }
     }
 
+    private void cadastrar() {
+//        Membro membro = getMembro();
+    }
+
+    // Fazendo a captação da Entidade Membro para persistência
+//    private Membro getMembro() {
+//        String nome = txtNome.getText();
+//        Date dataNascimeto = getDataNascimento();
+//        String cpf = formatTxtCpf.getText();
+//        String endereco = txtEndereco.getText();
+//        String numero = formatTxtNumero.getText();
+//        Sexo sexo = getSexo();
+//        Cargo cargo = getCargo();
+//    }
+
+    // Esse método Formata a data do campo formatTxt para = yyyy-MM-dd 
+    // Para que seja persistido corretamente no tipo Date do MySQl.
+    private Date getDataNascimento(){
+        String dataString = formatTxtDataNascimento.getText();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date data = null;
+        try {
+          data = sdf.parse(dataString);
+          SimpleDateFormat formatoNovo = new SimpleDateFormat("yyyy-MM-dd");
+          String dataFormatada = formatoNovo.format(data);
+        } catch (ParseException e) {
+            System.out.println("Erro ao converter data: " + e.getMessage());
+        }
+        return data;  
+    }
+
+    private Sexo getSexo() {
+        Sexo sexo = null;
+        if(jComboBoxSexo.getSelectedItem().toString().equalsIgnoreCase("Sexo:")){
+            JOptionPane.showMessageDialog(rootPane, "Selecione o *Sexo do novo Membro(a) da Igreja IADSN");
+        }else{
+            if(jComboBoxSexo.getSelectedItem().toString().equalsIgnoreCase("Masculino")){
+                  sexo = Sexo.MASCULINO;
+              }else if(jComboBoxSexo.getSelectedItem().toString().equalsIgnoreCase("Feminino")){
+                  sexo = Sexo.FEMININO;
+              }
+        }
+        return sexo;
+    }
+
+    // Retorna o Enum Cargo correspondente.
+    private Cargo getCargo() {
+        Cargo cargo = null;
+        if(jComboBoxCargo.getSelectedItem().toString().equalsIgnoreCase("Cargo:")){
+            JOptionPane.showMessageDialog(rootPane, "Selecione o *Cargo do novo Membro(a) da Igreja IADSN");
+        }else{
+            if(jComboBoxCargo.getSelectedItem().toString().equalsIgnoreCase("Pastor(a)")){
+                cargo = Cargo.PASTOR;
+            }else if(jComboBoxCargo.getSelectedItem().toString().equalsIgnoreCase("Diácono(a)")){
+                cargo = Cargo.DIACONO;
+            }else if(jComboBoxCargo.getSelectedItem().toString().equalsIgnoreCase("Presbítero(a)")){
+                cargo = Cargo.PRESBÍTERO;
+            }else if(jComboBoxCargo.getSelectedItem().toString().equalsIgnoreCase("Evangelista")){
+                cargo = Cargo.EVANGELISTA;
+            }else if(jComboBoxCargo.getSelectedItem().toString().equalsIgnoreCase("Missionário(a)")){
+                cargo = Cargo.MISSIONÁRIO;
+            }    
+        }
+        return cargo;
+    }
 }

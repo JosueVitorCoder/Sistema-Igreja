@@ -470,10 +470,23 @@ public class TelaDeCadastroDeMembros extends javax.swing.JInternalFrame {
             em.getTransaction().begin();
             dao.addMembroBD(getMembro());
             em.getTransaction().commit();
+            JOptionPane.showMessageDialog(rootPane, "Cadastro Salvo com sucesso!");
+            limparCampos();
         }catch(Exception e){
             em.getTransaction().rollback();
             e.printStackTrace();
             JOptionPane.showMessageDialog(rootPane, "Não foi possível salvar no banco de dados.");
         }
+    }
+
+    private void limparCampos() {
+        jComboBoxCargo.setSelectedIndex(0);
+        jComboBoxSexo.setSelectedIndex(0);
+        jComboBoxStatusCivil.setSelectedIndex(0);
+        formatTxtCpf.setText("");
+        formatTxtDataNascimento.setText("");
+        formatTxtNumero.setText("");
+        txtEndereco.setText("");
+        txtNome.setText("");
     }
 }

@@ -5,21 +5,30 @@
 package br.com.igreja.views.internal;
 
 import br.com.igreja.models.Membro;
+import br.com.igreja.models.dao.MembroDAO;
 import br.com.igreja.models.enums.Cargo;
 import br.com.igreja.models.enums.Sexo;
+import br.com.igreja.models.enums.StatusCivil;
+import br.com.igreja.util.JPAUtil;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import javax.imageio.ImageIO;
+import javax.persistence.EntityManager;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.hibernate.engine.jdbc.internal.BinaryStreamImpl;
 
 /**
  *
@@ -31,6 +40,11 @@ public class TelaDeCadastroDeMembros extends javax.swing.JInternalFrame {
     private FileInputStream fis;
     // Variável para armazenar o tamanho da imagem
     private int tamanho;
+    // Variável para armazenar a foto selecionada pelo usuário
+    private Image foto;
+    // Classe para persistencia 
+    private EntityManager em;
+    
     
     /**
      * Creates new form TelaDeLogin
@@ -140,7 +154,7 @@ public class TelaDeCadastroDeMembros extends javax.swing.JInternalFrame {
 
         jComboBoxSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sexo:", "Masculino", "Feminino" }));
 
-        jComboBoxStatusCivil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status Civil:", "Casado(a)", "Solteiro(a)", "Separado", "Divorciado", "União estável" }));
+        jComboBoxStatusCivil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status Civil:", "Casado(a)", "Solteiro(a)", "Separado(a)", "Divorciado(a)", "União estável" }));
 
         jComboBoxCargo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cargo:", "Pastor(a)", "Diácono(a)", "Presbítero(a)", "Evangelista", "Missionário(a)" }));
         jComboBoxCargo.addActionListener(new java.awt.event.ActionListener() {
@@ -276,7 +290,7 @@ public class TelaDeCadastroDeMembros extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtEnderecoActionPerformed
 
     private void botaoCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCadastrarActionPerformed
-        // TODO add your handling code here:
+        persistir();
     }//GEN-LAST:event_botaoCadastrarActionPerformed
 
     private void botaoCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCancelarActionPerformed
@@ -330,15 +344,15 @@ public class TelaDeCadastroDeMembros extends javax.swing.JInternalFrame {
             try {
                 fis = new FileInputStream(jfc.getSelectedFile());
                 tamanho = (int) jfc.getSelectedFile().length();
-                Image foto = ImageIO.read(jfc.getSelectedFile())
+                foto = ImageIO.read(jfc.getSelectedFile())
                         .getScaledInstance(labelFoto.getWidth(), labelFoto.getHeight(), Image.SCALE_SMOOTH);
                 labelFoto.setIcon(new ImageIcon(foto));
                 labelFoto.updateUI();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(rootPane, "Tipo de Arquivo incompatível");
-            }
-                
+            }   
         } else {
+            JOptionPane.showMessageDialog(rootPane, "Selecione uma imagem compatível");
         }
     }
 
@@ -347,15 +361,21 @@ public class TelaDeCadastroDeMembros extends javax.swing.JInternalFrame {
     }
 
     // Fazendo a captação da Entidade Membro para persistência
-//    private Membro getMembro() {
-//        String nome = txtNome.getText();
-//        Date dataNascimeto = getDataNascimento();
-//        String cpf = formatTxtCpf.getText();
-//        String endereco = txtEndereco.getText();
-//        String numero = formatTxtNumero.getText();
-//        Sexo sexo = getSexo();
-//        Cargo cargo = getCargo();
-//    }
+    private Membro getMembro() {
+        String nome = txtNome.getText();
+        Date dataNascimeto = getDataNascimento();
+        String cpf = formatTxtCpf.getText();
+        String endereco = txtEndereco.getText();
+        String numero = formatTxtNumero.getText();
+        Sexo sexo = getSexo();
+        Cargo cargo = getCargo();
+        StatusCivil statusCivil = getStatusCivil();
+        byte[] imagemData = converterImagemEmByte();
+        
+        Membro membro = new Membro(nome, dataNascimeto, cpf, endereco, numero, sexo, cargo, statusCivil, imagemData);
+        
+        return membro;
+    }
 
     // Esse método Formata a data do campo formatTxt para = yyyy-MM-dd 
     // Para que seja persistido corretamente no tipo Date do MySQl.
@@ -406,5 +426,54 @@ public class TelaDeCadastroDeMembros extends javax.swing.JInternalFrame {
             }    
         }
         return cargo;
+    }
+
+    private StatusCivil getStatusCivil() {
+        StatusCivil status = null;
+        if (jComboBoxStatusCivil.getSelectedItem().toString().equalsIgnoreCase("Status Civil:")) {
+            JOptionPane.showMessageDialog(rootPane, "Selecione o *StatusCivil do novo Membro(a) da Igreja IADSN");
+        } else {
+            if(jComboBoxStatusCivil.getSelectedItem().toString().equalsIgnoreCase("Casado(a)")){
+                status = StatusCivil.CASADO;
+            }else if(jComboBoxStatusCivil.getSelectedItem().toString().equalsIgnoreCase("Solteiro(a)")){
+                status = StatusCivil.SOLTEIRO;
+            }else if(jComboBoxStatusCivil.getSelectedItem().toString().equalsIgnoreCase("Separado(a)")){
+                status = StatusCivil.SEPARADO;
+            }else if(jComboBoxStatusCivil.getSelectedItem().toString().equalsIgnoreCase("Divorciado(a)")){
+                status = StatusCivil.DIVORCIADO;
+            }else if(jComboBoxStatusCivil.getSelectedItem().toString().equalsIgnoreCase("União estável")){
+                status = StatusCivil.UNIAO_ESTAVEL;
+            }
+        }
+        return status;
+    }
+
+    private byte[] converterImagemEmByte() {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        byte[] buf = new byte[1024];
+        try {
+            for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                bos.write(buf, 0, readNum);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        
+        byte[] bytes = bos.toByteArray();
+        return bytes;
+    }
+
+    private void persistir() {
+        em = JPAUtil.getEntityManager();
+        MembroDAO dao = new MembroDAO(em);
+        try{
+            em.getTransaction().begin();
+            dao.addMembroBD(getMembro());
+            em.getTransaction().commit();
+        }catch(Exception e){
+            em.getTransaction().rollback();
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(rootPane, "Não foi possível salvar no banco de dados.");
+        }
     }
 }

@@ -12,6 +12,8 @@ import java.time.LocalDate;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,13 +35,16 @@ public class Membro {
     private String cpf;
     private String endereco;
     private String numero;
+    @Enumerated(EnumType.STRING)
     private Sexo sexo;
+    @Enumerated(EnumType.STRING)
     private Cargo cargo;
     @Column(name = "status_civil")
+    @Enumerated(EnumType.STRING)
     private StatusCivil statusCivil;
-    private Byte[] foto;
+    private byte[] foto;
 
-    public Membro(String nome, Date dataDeNascimento, String cpf, String endereco, String numero, Sexo sexo, Cargo cargo, StatusCivil statusCivil, Byte[] foto) {
+    public Membro(String nome, Date dataDeNascimento, String cpf, String endereco, String numero, Sexo sexo, Cargo cargo, StatusCivil statusCivil, byte[] foto) {
         this.nome = nome;
         this.dataDeNascimento = dataDeNascimento;
         this.cpf = cpf;
@@ -61,8 +66,6 @@ public class Membro {
         this.cargo = cargo;
         this.statusCivil = statusCivil;
     }
-    
-    
 
     public Membro() {}
     
@@ -130,11 +133,11 @@ public class Membro {
         this.statusCivil = statusCivil;
     }
 
-    public Byte[] getFoto() {
+    public byte[] getFoto() {
         return foto;
     }
 
-    public void setFoto(Byte[] foto) {
+    public void setFoto(byte[] foto) {
         this.foto = foto;
     }
 }

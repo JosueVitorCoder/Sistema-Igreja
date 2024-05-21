@@ -13,11 +13,14 @@ import br.com.igreja.util.JPAUtil;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
@@ -25,6 +28,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.hibernate.engine.jdbc.internal.BinaryStreamImpl;
 
 /**
  *
@@ -286,14 +290,12 @@ public class TelaDeCadastroDeMembros extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtEnderecoActionPerformed
 
     private void botaoCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCadastrarActionPerformed
-        if(verificacao()){
-            persistir();
-        }
+        persistir();
     }//GEN-LAST:event_botaoCadastrarActionPerformed
 
     private void botaoCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCancelarActionPerformed
         // TODO add your handling code here:
-        this.dispose();
+        cadastrar();
     }//GEN-LAST:event_botaoCancelarActionPerformed
 
     private void botaoEditarImgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEditarImgActionPerformed
@@ -332,33 +334,6 @@ public class TelaDeCadastroDeMembros extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
 
-    private boolean verificacao(){
-        boolean ok = true;
-        
-        // verificação de sexo
-        if(jComboBoxSexo.getSelectedItem().toString().equalsIgnoreCase("Sexo:")){
-            JOptionPane.showMessageDialog(rootPane, "Selecione o *Sexo do novo Membro(a) da Igreja IADSN");
-            ok = false;
-        }
-        // verificação de cargo
-        if(jComboBoxCargo.getSelectedItem().toString().equalsIgnoreCase("Cargo:")){
-            JOptionPane.showMessageDialog(rootPane, "Selecione o *Cargo do novo Membro(a) da Igreja IADSN");
-            ok = false;
-        }
-        // verifição de status
-        if (jComboBoxStatusCivil.getSelectedItem().toString().equalsIgnoreCase("Status Civil:")) {
-            JOptionPane.showMessageDialog(rootPane, "Selecione o *StatusCivil do novo Membro(a) da Igreja IADSN");
-            ok = false;
-        }
-        // Verificação geral
-        if(getMembro().getNome() == null || getMembro().getDataDeNascimento() == null || getMembro().getCpf() == null ||
-                getMembro().getEndereco() == null || getMembro().getNumero() == null || getMembro().getSexo() == null ||
-                getMembro().getCargo() == null || getMembro().getStatusCivil() == null || getMembro().getFoto() == null){
-            ok = false;
-        }
-        
-        return ok;
-    }
     private void carregarFoto(){
         JFileChooser jfc = new JFileChooser();
         jfc.setDialogTitle("Selecionar Arquivo");
@@ -381,8 +356,12 @@ public class TelaDeCadastroDeMembros extends javax.swing.JInternalFrame {
         }
     }
 
+    private void cadastrar() {
+//        Membro membro = getMembro();
+    }
+
     // Fazendo a captação da Entidade Membro para persistência
-    private Membro getMembro(){
+    private Membro getMembro() {
         String nome = txtNome.getText();
         Date dataNascimeto = getDataNascimento();
         String cpf = formatTxtCpf.getText();
@@ -392,12 +371,11 @@ public class TelaDeCadastroDeMembros extends javax.swing.JInternalFrame {
         Cargo cargo = getCargo();
         StatusCivil statusCivil = getStatusCivil();
         byte[] imagemData = converterImagemEmByte();
-
-
-        // Cria o objeto Membro e retorna
-        return new Membro(nome, dataNascimeto, cpf, endereco, numero, sexo, cargo, statusCivil, imagemData);
+        
+        Membro membro = new Membro(nome, dataNascimeto, cpf, endereco, numero, sexo, cargo, statusCivil, imagemData);
+        
+        return membro;
     }
-
 
     // Esse método Formata a data do campo formatTxt para = yyyy-MM-dd 
     // Para que seja persistido corretamente no tipo Date do MySQl.
@@ -418,7 +396,7 @@ public class TelaDeCadastroDeMembros extends javax.swing.JInternalFrame {
     private Sexo getSexo() {
         Sexo sexo = null;
         if(jComboBoxSexo.getSelectedItem().toString().equalsIgnoreCase("Sexo:")){
-            sexo = null;
+            JOptionPane.showMessageDialog(rootPane, "Selecione o *Sexo do novo Membro(a) da Igreja IADSN");
         }else{
             if(jComboBoxSexo.getSelectedItem().toString().equalsIgnoreCase("Masculino")){
                   sexo = Sexo.MASCULINO;
@@ -433,7 +411,7 @@ public class TelaDeCadastroDeMembros extends javax.swing.JInternalFrame {
     private Cargo getCargo() {
         Cargo cargo = null;
         if(jComboBoxCargo.getSelectedItem().toString().equalsIgnoreCase("Cargo:")){
-            cargo = null;
+            JOptionPane.showMessageDialog(rootPane, "Selecione o *Cargo do novo Membro(a) da Igreja IADSN");
         }else{
             if(jComboBoxCargo.getSelectedItem().toString().equalsIgnoreCase("Pastor(a)")){
                 cargo = Cargo.PASTOR;
@@ -453,7 +431,7 @@ public class TelaDeCadastroDeMembros extends javax.swing.JInternalFrame {
     private StatusCivil getStatusCivil() {
         StatusCivil status = null;
         if (jComboBoxStatusCivil.getSelectedItem().toString().equalsIgnoreCase("Status Civil:")) {
-            status = null;
+            JOptionPane.showMessageDialog(rootPane, "Selecione o *StatusCivil do novo Membro(a) da Igreja IADSN");
         } else {
             if(jComboBoxStatusCivil.getSelectedItem().toString().equalsIgnoreCase("Casado(a)")){
                 status = StatusCivil.CASADO;
@@ -492,24 +470,10 @@ public class TelaDeCadastroDeMembros extends javax.swing.JInternalFrame {
             em.getTransaction().begin();
             dao.addMembroBD(getMembro());
             em.getTransaction().commit();
-            JOptionPane.showMessageDialog(rootPane, "Cadastro Salvo com sucesso!");
-            limparCampos();
         }catch(Exception e){
             em.getTransaction().rollback();
             e.printStackTrace();
             JOptionPane.showMessageDialog(rootPane, "Não foi possível salvar no banco de dados.");
         }
     }
-
-    private void limparCampos() {
-        jComboBoxCargo.setSelectedIndex(0);
-        jComboBoxSexo.setSelectedIndex(0);
-        jComboBoxStatusCivil.setSelectedIndex(0);
-        formatTxtCpf.setText("");
-        formatTxtDataNascimento.setText("");
-        formatTxtNumero.setText("");
-        txtEndereco.setText("");
-        txtNome.setText("");
-    }
-    
 }

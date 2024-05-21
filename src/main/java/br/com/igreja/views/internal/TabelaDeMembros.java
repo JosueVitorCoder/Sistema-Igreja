@@ -9,12 +9,20 @@ import br.com.igreja.models.dao.MembroDAO;
 import br.com.igreja.util.JPAUtil;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
+import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -30,11 +38,13 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
     int cont = -1;
     public TabelaDeMembros() {
         initComponents();
+        atualizarTabela();
+        atualizarDadoPrevios();
+        
         if(cont == -1){
             jComboBoxFiltragem.setVisible(false);
             cont = 0;
         }
-        atualizarTabela();
     }
 
     /**
@@ -63,18 +73,25 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        labelNomePrevio = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        labelEnderecoPrevio = new javax.swing.JLabel();
+        labelNumeroPrevio = new javax.swing.JLabel();
         labelDetalhes = new javax.swing.JLabel();
+        botao123 = new javax.swing.JButton();
 
         jLabel4.setText("jLabel4");
 
         setClosable(true);
         setTitle("Tabela de Membros");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jScrollPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jScrollPane1MouseClicked(evt);
+            }
+        });
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -117,7 +134,7 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
         labelFoto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelFoto.setIcon(new javax.swing.ImageIcon("C:\\Users\\demi\\Documents\\NetBeansProjects\\Igreja\\src\\main\\java\\br\\com\\igreja\\imagens\\user_1077012.png")); // NOI18N
         labelFoto.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "FOTO", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
-        getContentPane().add(labelFoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 70, -1, -1));
+        getContentPane().add(labelFoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(324, 67, 80, 90));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("Data de Entrada:");
@@ -139,24 +156,32 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
         jLabel9.setText("N/A");
         getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 160, 140, -1));
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        jLabel10.setText("N/A");
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 70, 130, -1));
+        labelNomePrevio.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        labelNomePrevio.setText("N/A");
+        getContentPane().add(labelNomePrevio, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 70, 130, -1));
         getContentPane().add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 90, 180, -1));
         getContentPane().add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 120, 180, 10));
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        jLabel11.setText("N/A");
-        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 100, 140, -1));
+        labelEnderecoPrevio.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        labelEnderecoPrevio.setText("N/A");
+        getContentPane().add(labelEnderecoPrevio, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 100, 140, -1));
 
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        jLabel13.setText("N/A");
-        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 130, 140, -1));
+        labelNumeroPrevio.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        labelNumeroPrevio.setText("N/A");
+        getContentPane().add(labelNumeroPrevio, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 130, 140, -1));
 
         labelDetalhes.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         labelDetalhes.setForeground(new java.awt.Color(51, 51, 255));
         labelDetalhes.setText("Detalhes");
         getContentPane().add(labelDetalhes, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 160, -1, -1));
+
+        botao123.setText("jButton1");
+        botao123.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botao123ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(botao123, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 160, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -174,13 +199,19 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
         });
     }//GEN-LAST:event_jRadioFiltrarCargoActionPerformed
 
+    private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
+        atualizarDadoPrevios();
+    }//GEN-LAST:event_jScrollPane1MouseClicked
+
+    private void botao123ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao123ActionPerformed
+        atualizarDadoPrevios();
+    }//GEN-LAST:event_botao123ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botao123;
     private javax.swing.JComboBox<String> jComboBoxFiltragem;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -197,18 +228,22 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel labelDetalhes;
+    private javax.swing.JLabel labelEnderecoPrevio;
     private javax.swing.JLabel labelFoto;
+    private javax.swing.JLabel labelNomePrevio;
+    private javax.swing.JLabel labelNumeroPrevio;
     private javax.swing.JTable tabela;
     // End of variables declaration//GEN-END:variables
 
+    // MembroDAO que será ultilizado em um ou mais métodos
     EntityManager em = JPAUtil.getEntityManager();
+    MembroDAO dao = new MembroDAO(em);
     // Strings estáticas que irão corresponder a cada coluna da tabela
     String[] columnData = {"Nome", "Nascimento", "CPF", "Endereço", "Número", "Sexo", "Cargo", "Status Civil"};
     DefaultTableModel model;
     
-    public void atualizarTabela(){
+    private void atualizarTabela(){
        model = new DefaultTableModel(columnData, 0);
-       MembroDAO dao = new MembroDAO(em);
        List<Membro> membros = dao.getLista();
        
        for(Membro m : membros){
@@ -216,7 +251,53 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
                m.getNumero(), m.getSexo().toString(), m.getCargo().toString(), m.getStatusCivil().toString()};
            model.addRow(rowData);
        }
-
        tabela.setModel(model);
     }
+    
+    // Retorna o índice do membro selecionado pelo usuário
+    private int membroSelecinado(){
+        int index = -1;
+        for(int i = 0; i < dao.getLista().size(); i++){
+            if(tabela.isRowSelected(i)){
+               index = i;
+            }
+        }
+        return index;
+    }
+    
+   private void atualizarDadoPrevios() {
+    int indice = membroSelecinado();
+    if (indice != -1) {
+        labelNomePrevio.setText(dao.getLista().get(indice).getNome());
+        labelEnderecoPrevio.setText(dao.getLista().get(indice).getEndereco());
+        labelNumeroPrevio.setText(dao.getLista().get(indice).getNumero());
+
+        byte[] fotoByte = dao.getLista().get(indice).getFoto();
+        if (fotoByte != null) {
+            ByteArrayInputStream bais = new ByteArrayInputStream(fotoByte);
+            BufferedImage bufferedImage;
+            try {
+                bufferedImage = ImageIO.read(bais);
+                if (bufferedImage != null) {
+                    // Redimensiona a imagem para caber no JLabel
+                    Image scaledImage = bufferedImage.getScaledInstance(labelFoto.getWidth(), labelFoto.getHeight(), Image.SCALE_SMOOTH);
+                    ImageIcon imageIcon = new ImageIcon(scaledImage);
+                    labelFoto.setIcon(imageIcon);
+                } else {
+                    System.out.println("A imagem é nula.");
+                    labelFoto.setIcon(null);
+                }
+            } catch (IOException ex) {
+                System.out.println("Não foi possível converter a imagem!");
+                ex.printStackTrace();
+                labelFoto.setIcon(null);
+            }
+        } else {
+            System.out.println("A foto byte é nula.");
+            labelFoto.setIcon(null);
+        }
+    }
+    System.out.println("Indice: " + indice);
+}
+    
 }

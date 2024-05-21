@@ -56,16 +56,16 @@ public class Membro {
         this.foto = foto;
     }
 
-    public Membro(String nome, Date dataDeNascimento, String cpf, String endereco, String numero, Sexo sexo, Cargo cargo, StatusCivil statusCivil) {
-        this.nome = nome;
-        this.dataDeNascimento = dataDeNascimento;
-        this.cpf = cpf;
-        this.endereco = endereco;
-        this.numero = numero;
-        this.sexo = sexo;
-        this.cargo = cargo;
-        this.statusCivil = statusCivil;
-    }
+//    public Membro(String nome, Date dataDeNascimento, String cpf, String endereco, String numero, Sexo sexo, Cargo cargo, StatusCivil statusCivil) {
+//        this.nome = nome;
+//        this.dataDeNascimento = dataDeNascimento;
+//        this.cpf = cpf;
+//        this.endereco = endereco;
+//        this.numero = numero;
+//        this.sexo = sexo;
+//        this.cargo = cargo;
+//        this.statusCivil = statusCivil;
+//    }
 
     public Membro() {}
     

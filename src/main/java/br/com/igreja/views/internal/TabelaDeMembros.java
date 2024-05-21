@@ -4,12 +4,18 @@
  */
 package br.com.igreja.views.internal;
 
+import br.com.igreja.models.Membro;
+import br.com.igreja.models.dao.MembroDAO;
+import br.com.igreja.util.JPAUtil;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -28,7 +34,7 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
             jComboBoxFiltragem.setVisible(false);
             cont = 0;
         }
-        
+        atualizarTabela();
     }
 
     /**
@@ -42,7 +48,7 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
 
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabela = new javax.swing.JTable();
         jComboBoxFiltragem = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -70,7 +76,7 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
         setTitle("Tabela de Membros");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -78,7 +84,7 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
                 "Nome", "Nascimento", "CPF", "Endereço", "Número", "Sexo", "Cargo", "Status Civil"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabela);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 650, 440));
 
@@ -189,11 +195,28 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel labelDetalhes;
     private javax.swing.JLabel labelFoto;
+    private javax.swing.JTable tabela;
     // End of variables declaration//GEN-END:variables
 
+    EntityManager em = JPAUtil.getEntityManager();
+    // Strings estáticas que irão corresponder a cada coluna da tabela
+    String[] columnData = {"Nome", "Nascimento", "CPF", "Endereço", "Número", "Sexo", "Cargo", "Status Civil"};
+    DefaultTableModel model;
+    
+    public void atualizarTabela(){
+       model = new DefaultTableModel(columnData, 0);
+       MembroDAO dao = new MembroDAO(em);
+       List<Membro> membros = dao.getLista();
+       
+       for(Membro m : membros){
+           String[] rowData = {m.getNome(), m.getDataDeNascimento().toString(), m.getCpf(), m.getEndereco(),
+               m.getNumero(), m.getSexo().toString(), m.getCargo().toString(), m.getStatusCivil().toString()};
+           model.addRow(rowData);
+       }
 
+       tabela.setModel(model);
+    }
 }

@@ -5,7 +5,9 @@
 package br.com.igreja.models.dao;
 
 import br.com.igreja.models.Membro;
+import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -20,5 +22,11 @@ public class MembroDAO {
     
     public void addMembroBD(Membro membro){
         em.persist(membro);
+    }
+    
+    public List<Membro> getLista(){
+        String jpql = "SELECT m FROM Membro m";
+        TypedQuery<Membro> membros = em.createQuery(jpql, Membro.class);
+        return membros.getResultList();
     }
 }

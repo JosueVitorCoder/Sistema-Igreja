@@ -44,7 +44,7 @@ public class Membro {
     private StatusCivil statusCivil;
     private byte[] foto;
 
-    public Membro(String nome, Date dataDeNascimento, String cpf, String endereco, String numero, Sexo sexo, Cargo cargo, StatusCivil statusCivil, byte[] foto) {
+    public Membro(String nome, Date dataDeNascimento, String cpf, String endereco, String numero, Sexo sexo, Cargo cargo, StatusCivil statusCivil, byte[] foto){
         this.nome = nome;
         this.dataDeNascimento = dataDeNascimento;
         this.cpf = cpf;
@@ -68,6 +68,7 @@ public class Membro {
     }
 
     public Membro() {}
+    
     
     public String getNome() {
         return nome;

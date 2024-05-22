@@ -265,9 +265,12 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
        List<Membro> membros = dao.getLista();
        
        for(Membro m : membros){
-           String[] rowData = {m.getNome(), m.getDataDeNascimento().toString(), m.getCpf(), m.getEndereco(),
-               m.getNumero(), m.getSexo().toString(), m.getCargo().toString(), m.getStatusCivil().toString()};
-           model.addRow(rowData);
+            if(!m.isArquivado()){
+                String[] rowData = {m.getNome(), m.getDataDeNascimento().toString(), m.getCpf(), m.getEndereco(),
+                m.getNumero(), m.getSexo().toString(), m.getCargo().toString(), m.getStatusCivil().toString()};
+                model.addRow(rowData);
+            }
+           
        }
        tabela.setModel(model);
     }
@@ -279,9 +282,11 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
             model = new DefaultTableModel(columnData, 0);
 
             for(Membro m : membros){
-                String[] rowData = {m.getNome(), m.getDataDeNascimento().toString(), m.getCpf(), m.getEndereco(),
+                if(!m.isArquivado()){
+                    String[] rowData = {m.getNome(), m.getDataDeNascimento().toString(), m.getCpf(), m.getEndereco(),
                     m.getNumero(), m.getSexo().toString(), m.getCargo().toString(), m.getStatusCivil().toString()};
-                model.addRow(rowData);
+                    model.addRow(rowData);
+                }
             }
             tabela.setModel(model);
         }

@@ -5,9 +5,11 @@
 package br.com.igreja.views;
 
 import br.com.igreja.views.internal.EntradaDeOfertas;
+import br.com.igreja.views.internal.SaidaDeMembro;
 import br.com.igreja.views.internal.TabelaDeMembros;
 import br.com.igreja.views.internal.TelaDeCadastroDeMembros;
 import java.awt.Dimension;
+import javax.swing.JDesktopPane;
 
 /**
  *
@@ -267,7 +269,9 @@ public class viewDashBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemCadastroMembrosActionPerformed
 
     private void jMenuItemSaidaDeMembrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSaidaDeMembrosActionPerformed
-        // TODO add your handling code here:
+        SaidaDeMembro view = new SaidaDeMembro();
+        jDesktop.add(view);
+        view.iniciarTela(this);
     }//GEN-LAST:event_jMenuItemSaidaDeMembrosActionPerformed
 
     private void jMenuItemMembrosCadastradosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemMembrosCadastradosActionPerformed
@@ -351,4 +355,9 @@ public class viewDashBoard extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     // End of variables declaration//GEN-END:variables
+
+    //possibilitar que o jDesktop seja acessado por outros internais
+    public JDesktopPane getjDesktop() {
+        return jDesktop;
+    }
 }

@@ -43,6 +43,7 @@ public class Membro {
     @Enumerated(EnumType.STRING)
     private StatusCivil statusCivil;
     private byte[] foto;
+    private boolean arquivado = false;
 
     public Membro(String nome, Date dataDeNascimento, String cpf, String endereco, String numero, Sexo sexo, Cargo cargo, StatusCivil statusCivil, byte[] foto){
         this.nome = nome;
@@ -56,19 +57,11 @@ public class Membro {
         this.foto = foto;
     }
 
-//    public Membro(String nome, Date dataDeNascimento, String cpf, String endereco, String numero, Sexo sexo, Cargo cargo, StatusCivil statusCivil) {
-//        this.nome = nome;
-//        this.dataDeNascimento = dataDeNascimento;
-//        this.cpf = cpf;
-//        this.endereco = endereco;
-//        this.numero = numero;
-//        this.sexo = sexo;
-//        this.cargo = cargo;
-//        this.statusCivil = statusCivil;
-//    }
-
     public Membro() {}
-    
+
+    public Long getId() {
+        return id;
+    }
     
     public String getNome() {
         return nome;
@@ -140,5 +133,13 @@ public class Membro {
 
     public void setFoto(byte[] foto) {
         this.foto = foto;
+    }
+
+    public boolean isArquivado() {
+        return arquivado;
+    }
+
+    public void setArquivado(boolean arquivado) {
+        this.arquivado = arquivado;
     }
 }

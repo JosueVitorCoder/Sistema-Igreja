@@ -7,6 +7,7 @@ package br.com.igreja.views.internal;
 import br.com.igreja.models.Membro;
 import br.com.igreja.models.dao.MembroDAO;
 import br.com.igreja.util.JPAUtil;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
@@ -115,15 +116,15 @@ public class ListaDeAquivados extends javax.swing.JInternalFrame {
     private void atualizarTabela(){
         EntityManager em = JPAUtil.getEntityManager();
         MembroDAO dao = new MembroDAO(em);
-       model = new DefaultTableModel(columnData, 0);
-       List<Membro> membros = dao.getLista();
+        model = new DefaultTableModel(columnData, 0);
+        List<Membro> membros = dao.getLista();
        
-       for(Membro m : membros){
-           if(m.isArquivado()){
+            for(Membro m : membros){
+            if(m.isArquivado()){
                String[] rowData = {m.getNome(),m.getCpf()};
                model.addRow(rowData);
-           }
-       }
+            }
+        }
        tabela.setModel(model);
     }
     
@@ -140,7 +141,13 @@ public class ListaDeAquivados extends javax.swing.JInternalFrame {
     private Long getId(){
         EntityManager em = JPAUtil.getEntityManager();
         MembroDAO dao = new MembroDAO(em);
-        return dao.getLista().get(membroSelecinado()).getId();
+        List<Membro> membrosArquivados = new ArrayList<>(); 
+        for(Membro m : dao.getLista()){
+            if(m.isArquivado()){
+                membrosArquivados.add(m);
+            }
+        }
+        return membrosArquivados.get(membroSelecinado()).getId();
     }
     
     // Retorna o índice do membro selecionado pelo usuário

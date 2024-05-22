@@ -111,7 +111,7 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel3.setText("Membros IADSN");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 6, -1, -1));
-        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 44, 652, 13));
+        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 44, 652, 10));
 
         jRadioFiltrarCargo.setText("Filtrar Por Cargo?");
         jRadioFiltrarCargo.addActionListener(new java.awt.event.ActionListener() {
@@ -134,37 +134,37 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
         labelFoto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelFoto.setIcon(new javax.swing.ImageIcon("C:\\Users\\demi\\Documents\\NetBeansProjects\\Igreja\\src\\main\\java\\br\\com\\igreja\\imagens\\user_1077012.png")); // NOI18N
         labelFoto.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "FOTO", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
-        getContentPane().add(labelFoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(324, 67, 80, 90));
+        getContentPane().add(labelFoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 80, 80, 90));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("Data de Entrada:");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 160, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 170, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("Nome:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 70, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 80, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel7.setText("Número:");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 130, -1, -1));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 140, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel8.setText("Endereço:");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 100, -1, -1));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 110, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         jLabel9.setText("N/A");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 160, 140, -1));
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 170, 140, -1));
 
         labelNomePrevio.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         labelNomePrevio.setText("N/A");
-        getContentPane().add(labelNomePrevio, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 70, 130, -1));
-        getContentPane().add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 90, 180, -1));
-        getContentPane().add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 120, 180, 10));
+        getContentPane().add(labelNomePrevio, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 80, 130, -1));
+        getContentPane().add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 100, 180, -1));
+        getContentPane().add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 130, 180, 10));
 
         labelEnderecoPrevio.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         labelEnderecoPrevio.setText("N/A");
-        getContentPane().add(labelEnderecoPrevio, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 100, 140, -1));
+        getContentPane().add(labelEnderecoPrevio, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 110, 140, -1));
 
         labelNumeroPrevio.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         labelNumeroPrevio.setText("N/A");
@@ -175,13 +175,13 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
         labelDetalhes.setText("Detalhes");
         getContentPane().add(labelDetalhes, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 160, -1, -1));
 
-        botao123.setText("jButton1");
+        botao123.setText("visualizar");
         botao123.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botao123ActionPerformed(evt);
             }
         });
-        getContentPane().add(botao123, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 160, -1, -1));
+        getContentPane().add(botao123, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 50, 100, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

@@ -4,6 +4,7 @@
  */
 package br.com.igreja.views;
 
+import br.com.igreja.views.internal.EntradaDeOfertas;
 import br.com.igreja.views.internal.TabelaDeMembros;
 import br.com.igreja.views.internal.TelaDeCadastroDeMembros;
 import java.awt.Dimension;
@@ -207,6 +208,11 @@ public class viewDashBoard extends javax.swing.JFrame {
         jMenu2.setText("Ofertas");
 
         jMenuItem3.setText("Entrada de Ofertas");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem3);
 
         jMenuBalanco.add(jMenu2);
@@ -273,6 +279,13 @@ public class viewDashBoard extends javax.swing.JFrame {
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        EntradaDeOfertas view = new EntradaDeOfertas();
+        jDesktop.add(view);
+        view.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments

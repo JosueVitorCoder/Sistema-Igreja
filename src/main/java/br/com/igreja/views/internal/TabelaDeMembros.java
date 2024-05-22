@@ -6,6 +6,7 @@ package br.com.igreja.views.internal;
 
 import br.com.igreja.models.Membro;
 import br.com.igreja.models.dao.MembroDAO;
+import br.com.igreja.models.enums.Cargo;
 import br.com.igreja.util.JPAUtil;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -22,7 +23,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -64,7 +67,7 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jRadioFiltrarCargo = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtNome = new javax.swing.JTextField();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel6 = new javax.swing.JLabel();
         labelFoto = new javax.swing.JLabel();
@@ -80,6 +83,7 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
         labelNumeroPrevio = new javax.swing.JLabel();
         labelDetalhes = new javax.swing.JLabel();
         botao123 = new javax.swing.JButton();
+        botaoPesquisar = new javax.swing.JButton();
 
         jLabel4.setText("jLabel4");
 
@@ -124,7 +128,7 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Pesquisar Cadastro: ");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 65, -1, -1));
-        getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(52, 97, 209, -1));
+        getContentPane().add(txtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(52, 97, 209, -1));
         getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 652, 9));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -183,6 +187,14 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
         });
         getContentPane().add(botao123, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 50, 100, -1));
 
+        botaoPesquisar.setText("Pesquisar");
+        botaoPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoPesquisarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(botaoPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, -1, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -207,9 +219,15 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
         atualizarDadoPrevios();
     }//GEN-LAST:event_botao123ActionPerformed
 
+    private void botaoPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPesquisarActionPerformed
+        // TODO add your handling code here:
+        pesquisa();
+    }//GEN-LAST:event_botaoPesquisarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botao123;
+    private javax.swing.JButton botaoPesquisar;
     private javax.swing.JComboBox<String> jComboBoxFiltragem;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -226,13 +244,13 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel labelDetalhes;
     private javax.swing.JLabel labelEnderecoPrevio;
     private javax.swing.JLabel labelFoto;
     private javax.swing.JLabel labelNomePrevio;
     private javax.swing.JLabel labelNumeroPrevio;
     private javax.swing.JTable tabela;
+    private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
 
     // MembroDAO que será ultilizado em um ou mais métodos
@@ -252,6 +270,21 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
            model.addRow(rowData);
        }
        tabela.setModel(model);
+    }
+    
+    private void atualizarTabela(List<Membro> membros){
+        if(membros == null){
+            System.out.println("Lista de membros não pode ser nula.");
+        }else{
+            model = new DefaultTableModel(columnData, 0);
+
+            for(Membro m : membros){
+                String[] rowData = {m.getNome(), m.getDataDeNascimento().toString(), m.getCpf(), m.getEndereco(),
+                    m.getNumero(), m.getSexo().toString(), m.getCargo().toString(), m.getStatusCivil().toString()};
+                model.addRow(rowData);
+            }
+            tabela.setModel(model);
+        }
     }
     
     // Retorna o índice do membro selecionado pelo usuário
@@ -298,6 +331,57 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
         }
     }
     System.out.println("Indice: " + indice);
-}
+    }
     
+    private void pesquisa(){
+        String jpql;
+        TypedQuery<Membro> query;
+        List<Membro> membrosResult = null;
+        if(getCargoPesquisa() != null){
+            jpql = "SELECT m FROM Membro m WHERE m.nome LIKE :nome AND m.cargo = :cargo";
+            query = em.createQuery(jpql, Membro.class);
+            query.setParameter("nome", "%"+txtNome.getText()+"%");
+            query.setParameter("cargo", getCargoPesquisa());
+            membrosResult = query.getResultList();
+        }else{
+            try{
+                jpql = "SELECT m FROM Membro m WHERE m.nome LIKE :nome";
+                query = em.createQuery(jpql, Membro.class);
+                query.setParameter("nome", "%"+txtNome.getText()+"%");
+                membrosResult = query.getResultList();
+            }catch (Exception e) {
+             // Trate a exceção adequadamente (por exemplo, logar o erro ou mostrar uma mensagem ao usuário)
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao realizar a pesquisa: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        atualizarTabela(membrosResult);
+    }
+   
+   private Cargo getCargoPesquisa(){
+       Cargo cargo = null;
+       if(jRadioFiltrarCargo.isSelected()){
+           switch(jComboBoxFiltragem.getSelectedItem().toString()){
+               case "N/A":
+                   cargo = Cargo.NA;
+                   break;
+                case "Pastores":
+                    cargo = Cargo.PASTOR;
+                   break;
+                case "Diáconos":
+                    cargo = Cargo.DIACONO;
+                   break;
+                case "Presbíteros":
+                    cargo = Cargo.PRESBÍTERO;
+                   break;
+                case "Evangelistas":
+                    cargo = Cargo.EVANGELISTA;
+                   break;
+                case "Missionários":
+                    cargo = Cargo.MISSIONÁRIO;
+                   break;
+           }
+       }
+       return cargo; 
+   }
 }

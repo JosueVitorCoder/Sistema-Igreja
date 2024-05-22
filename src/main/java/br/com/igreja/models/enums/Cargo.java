@@ -13,5 +13,6 @@ public enum Cargo {
     DIACONO,
     PRESBÍTERO,
     EVANGELISTA,
-    MISSIONÁRIO
+    MISSIONÁRIO,
+    NA
 }

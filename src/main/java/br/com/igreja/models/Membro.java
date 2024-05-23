@@ -10,6 +10,7 @@ import br.com.igreja.models.enums.StatusCivil;
 import java.awt.Image;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,6 +18,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -44,6 +46,8 @@ public class Membro {
     private StatusCivil statusCivil;
     private byte[] foto;
     private boolean arquivado = false;
+    @OneToMany(mappedBy = "membro")
+    private List<Dizimo> dizimos;
 
     public Membro(String nome, Date dataDeNascimento, String cpf, String endereco, String numero, Sexo sexo, Cargo cargo, StatusCivil statusCivil, byte[] foto){
         this.nome = nome;

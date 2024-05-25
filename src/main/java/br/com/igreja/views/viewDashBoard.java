@@ -57,8 +57,10 @@ public class viewDashBoard extends javax.swing.JFrame {
         jMenuBalanco = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenuAlugues = new javax.swing.JMenu();
         jMenuDocuments = new javax.swing.JMenu();
 
@@ -217,6 +219,9 @@ public class viewDashBoard extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem3);
 
+        jMenuItem1.setText("Balanço de Ofertas");
+        jMenu2.add(jMenuItem1);
+
         jMenuBalanco.add(jMenu2);
 
         jMenu3.setIcon(new javax.swing.ImageIcon("C:\\Users\\demi\\Documents\\NetBeansProjects\\Igreja\\src\\main\\java\\br\\com\\igreja\\imagens\\dizimo.png")); // NOI18N
@@ -229,6 +234,9 @@ public class viewDashBoard extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem5);
+
+        jMenuItem2.setText("Balanço de dízimos");
+        jMenu3.add(jMenuItem2);
 
         jMenuBalanco.add(jMenu3);
 
@@ -342,6 +350,8 @@ public class viewDashBoard extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuCadastros;
     private javax.swing.JMenu jMenuDocuments;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItemCadastroMembros;

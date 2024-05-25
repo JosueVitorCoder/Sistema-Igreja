@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -27,6 +28,7 @@ public class Dizimo {
     private Date data;
     private double valor;
     @ManyToOne()
+    @JoinColumn(name = "membro_id")
     private Membro membro;
 
     public Dizimo() {

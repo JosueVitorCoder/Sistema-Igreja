@@ -5,6 +5,7 @@
 package br.com.igreja.models.dao;
 
 import br.com.igreja.models.Membro;
+import br.com.igreja.models.enums.Cargo;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -84,5 +85,37 @@ public class MembroDAO {
                 em.close();
             }
         }
+    }
+    
+    public List<Membro> pesquisaPorNome(String nome){
+        String jpql;
+        List<Membro> membros = null;
+        TypedQuery<Membro> query;
+        try{
+            jpql = "SELECT m FROM Membro m WHERE m.nome LIKE :nome";
+            query = em.createQuery(jpql, Membro.class);
+            query.setParameter("nome", "%"+nome+"%");
+            membros = query.getResultList();
+        }catch(Exception e){
+            System.out.println("Error: "+ e.getMessage());
+        }
+        return membros;
+    }
+    
+    public List<Membro> pesquisaPorNomeECargo(String nome, Cargo cargo){
+        String jpql;
+        TypedQuery<Membro> query;
+        List<Membro> membrosResult = null;
+        try{
+            jpql = "SELECT m FROM Membro m WHERE m.nome LIKE :nome AND m.cargo = :cargo";
+            query = em.createQuery(jpql, Membro.class);
+            query.setParameter("nome", "%"+nome+"%");
+            query.setParameter("cargo", cargo);
+            membrosResult = query.getResultList();
+        }catch(Exception e){
+            System.out.println("Error: "+ e.getMessage());
+        }
+        
+        return membrosResult;
     }
 }

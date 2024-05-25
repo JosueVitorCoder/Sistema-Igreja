@@ -18,6 +18,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -305,12 +306,13 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
     
    private void atualizarDadoPrevios() {
     int indice = membroSelecinado();
+    
     if (indice != -1) {
-        labelNomePrevio.setText(dao.getLista().get(indice).getNome());
-        labelEnderecoPrevio.setText(dao.getLista().get(indice).getEndereco());
-        labelNumeroPrevio.setText(dao.getLista().get(indice).getNumero());
+        labelNomePrevio.setText(getMembroList().get(indice).getNome());
+        labelEnderecoPrevio.setText(getMembroList().get(indice).getEndereco());
+        labelNumeroPrevio.setText(getMembroList().get(indice).getNumero());
 
-        byte[] fotoByte = dao.getLista().get(indice).getFoto();
+        byte[] fotoByte = getMembroList().get(indice).getFoto();
         if (fotoByte != null) {
             ByteArrayInputStream bais = new ByteArrayInputStream(fotoByte);
             BufferedImage bufferedImage;
@@ -339,26 +341,12 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
     }
     
     private void pesquisa(){
-        String jpql;
-        TypedQuery<Membro> query;
+        
         List<Membro> membrosResult = null;
         if(getCargoPesquisa() != null){
-            jpql = "SELECT m FROM Membro m WHERE m.nome LIKE :nome AND m.cargo = :cargo";
-            query = em.createQuery(jpql, Membro.class);
-            query.setParameter("nome", "%"+txtNome.getText()+"%");
-            query.setParameter("cargo", getCargoPesquisa());
-            membrosResult = query.getResultList();
+            membrosResult = dao.pesquisaPorNomeECargo(txtNome.getText(), getCargoPesquisa());
         }else{
-            try{
-                jpql = "SELECT m FROM Membro m WHERE m.nome LIKE :nome";
-                query = em.createQuery(jpql, Membro.class);
-                query.setParameter("nome", "%"+txtNome.getText()+"%");
-                membrosResult = query.getResultList();
-            }catch (Exception e) {
-             // Trate a exceção adequadamente (por exemplo, logar o erro ou mostrar uma mensagem ao usuário)
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao realizar a pesquisa: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-            }
+            membrosResult = dao.pesquisaPorNome(txtNome.getText());
         }
         atualizarTabela(membrosResult);
     }
@@ -388,5 +376,43 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
            }
        }
        return cargo; 
+   }
+   
+   private List<Membro> getMembroList(){
+        List<Membro> membros = new ArrayList<>();
+        
+        // A lista deve corresponder as exigencias do usuário
+        // Então aqui é onde vamos criar o retorno correspondente.
+
+        if(txtNome.getText().trim().isEmpty()){
+            if(jRadioFiltrarCargo.isSelected()){
+            for(Membro m : dao.getLista()){
+                if(!m.isArquivado() && m.getCargo() == getCargoPesquisa()){
+                    membros.add(m);
+                }
+            }
+            }else{
+                for(Membro m : dao.getLista()){
+                    if(!m.isArquivado()){
+                        membros.add(m);
+                    }
+                }
+            }
+        }else{
+            if(jRadioFiltrarCargo.isSelected()){
+            for(Membro m : dao.pesquisaPorNomeECargo(txtNome.getText(), getCargoPesquisa())){
+                if(!m.isArquivado()){
+                    membros.add(m);
+                }
+            }
+            }else{
+                for(Membro m : dao.pesquisaPorNome(txtNome.getText())){
+                    if(!m.isArquivado()){
+                        membros.add(m);
+                    }
+                }
+            }
+        }
+        return membros;
    }
 }

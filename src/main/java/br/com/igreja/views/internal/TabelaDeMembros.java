@@ -270,8 +270,7 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
                 String[] rowData = {m.getNome(), m.getDataDeNascimento().toString(), m.getCpf(), m.getEndereco(),
                 m.getNumero(), m.getSexo().toString(), m.getCargo().toString(), m.getStatusCivil().toString()};
                 model.addRow(rowData);
-            }
-           
+            }    
        }
        tabela.setModel(model);
     }
@@ -341,7 +340,6 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
     }
     
     private void pesquisa(){
-        
         List<Membro> membrosResult = null;
         if(getCargoPesquisa() != null){
             membrosResult = dao.pesquisaPorNomeECargo(txtNome.getText(), getCargoPesquisa());

@@ -4,13 +4,19 @@
  */
 package br.com.igreja.views.internal;
 
+import br.com.igreja.models.Dizimo;
 import br.com.igreja.models.Membro;
+import br.com.igreja.models.dao.DizimoDAO;
 import br.com.igreja.models.dao.MembroDAO;
 import br.com.igreja.util.JPAUtil;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -44,10 +50,10 @@ public class EntradaDeDizimos extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tabela1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
+        formatTxtValor = new javax.swing.JFormattedTextField();
         jLabel2 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jButton1 = new javax.swing.JButton();
+        formatTxtData = new javax.swing.JFormattedTextField();
+        botaoSalvar = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
 
         setClosable(true);
@@ -85,21 +91,21 @@ public class EntradaDeDizimos extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel1.setText("Valor:  R$");
 
-        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        formatTxtValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel2.setText("Data: ");
 
         try {
-            jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            formatTxtData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
 
-        jButton1.setText("Salvar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        botaoSalvar.setText("Salvar");
+        botaoSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                botaoSalvarActionPerformed(evt);
             }
         });
 
@@ -128,12 +134,12 @@ public class EntradaDeDizimos extends javax.swing.JInternalFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(formatTxtData, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel1)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jButton1))))
+                                        .addComponent(formatTxtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(botaoSalvar))))
                         .addGap(0, 38, Short.MAX_VALUE))
                     .addComponent(jSeparator2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -157,13 +163,13 @@ public class EntradaDeDizimos extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(formatTxtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(formatTxtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1))
+                        .addComponent(botaoSalvar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
@@ -198,44 +204,47 @@ public class EntradaDeDizimos extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jScrollPane2MouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
         // TODO add your handling code here:
         cadastrarDizimo();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_botaoSalvarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoPesquisar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
+    private javax.swing.JButton botaoSalvar;
+    private javax.swing.JFormattedTextField formatTxtData;
+    private javax.swing.JFormattedTextField formatTxtValor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTable tabela;
     private javax.swing.JTable tabela1;
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
 
-    EntityManager em = JPAUtil.getEntityManager();
-    MembroDAO dao = new MembroDAO(em);
+    
     // Strings estáticas que irão corresponder a cada coluna da tabela
     String[] columnData = {"Nome", "Cargo"};
     DefaultTableModel model;
+    EntityManager em = JPAUtil.getEntityManager();
+    MembroDAO membroDao = new MembroDAO(em);
+    List<Membro> membrosResult = membroDao.getLista();
     
     private void pesquisa(){
-        List<Membro> membrosResult = null;
+        EntityManager em = JPAUtil.getEntityManager();
+        MembroDAO dao = new MembroDAO(em);
         membrosResult = dao.pesquisaPorNome(txtNome.getText());
         
         atualizarTabela(membrosResult);
     }
     
     private void atualizarTabela(){
+        EntityManager em = JPAUtil.getEntityManager();
+        MembroDAO dao = new MembroDAO(em);
        model = new DefaultTableModel(columnData, 0);
        List<Membro> membros = dao.getLista();
        if(membros == null){
@@ -270,8 +279,70 @@ public class EntradaDeDizimos extends javax.swing.JInternalFrame {
             tabela1.setModel(model);
         }
     }
+    
+    private int membroSelecinado(){
+        int index = -1;
+        if(membrosResult != null){
+            for(int i = 0; i < membrosResult.size(); i++){
+                if(tabela1.isRowSelected(i)){
+                   index = i;
+                }
+            }
+        }else{
+            System.out.println("Lista 'MembrosResult' esta nulo.");
+        }
+        return index;
+    }
 
     private void cadastrarDizimo() {
-        
+        EntityManager em = JPAUtil.getEntityManager();
+        DizimoDAO dizimoDAO = new DizimoDAO(em);
+        double valor = getValor(formatTxtValor.getText());
+        Date data = getData();
+        if(membroSelecinado() != -1){
+            Dizimo dizimo = new Dizimo(data, valor, membrosResult.get(membroSelecinado()));
+            try{
+
+                em.getTransaction().begin();
+                dizimoDAO.addDizimoAoBanco(dizimo);
+                em.getTransaction().commit();
+
+            }catch (Exception e) {
+                em.getTransaction().rollback();
+                e.printStackTrace();
+
+            } finally {
+                em.close();
+            }
+            JOptionPane.showMessageDialog(rootPane, "Dízimo cadastrado com sucesso!");
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Selecione o Membro que fez o pagamento do dízimo.");
+        }
+    }
+
+    private double getValor(String text) {
+        String[] valorStr = text.split(",");
+        double valor = 0;
+        if(valorStr.length == 1){
+            valor = Double.parseDouble(text);
+        }else{
+            String valorS = text.replace(",", ".");
+            valor = Double.parseDouble(valorS);
+            }
+        return valor;
+    }
+    
+    private Date getData(){
+        String dataString = formatTxtData.getText();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date data = null;
+        try {
+          data = sdf.parse(dataString);
+          SimpleDateFormat formatoNovo = new SimpleDateFormat("yyyy-MM-dd");
+          String dataFormatada = formatoNovo.format(data);
+        } catch (ParseException e) {
+            System.out.println("Erro ao converter data: " + e.getMessage());
+        }
+        return data;  
     }
 }

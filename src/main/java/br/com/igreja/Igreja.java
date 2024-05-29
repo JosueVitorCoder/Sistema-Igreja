@@ -31,7 +31,19 @@ public class Igreja {
     public static void main(String[] args) {
         // Aqui faço vários testes aleatórios para testar certas funcionalidades
 
-        EntityManager em = JPAUtil.getEntityManager();
+        String str = "100,55";
+        String str2 = "100";
+        
+        String[] valor1 = str.split(",");
+        String[] valor2 = str2.split(",");
+        
+        System.out.println("*---Lenght 1: "+ valor1.length);
+        System.out.println("| 0:"+valor1[0]+"| 1:"+valor1[1]);
+        System.out.println("*---Lenght 2: "+ valor2.length);
+        System.out.println("| 0:"+valor2[0]);
+        
+        
+        /*EntityManager em = JPAUtil.getEntityManager();
         MembroDAO membroDAO = new MembroDAO(em);
         DizimoDAO dizimoDAO = new DizimoDAO(em);
         
@@ -52,6 +64,6 @@ public class Igreja {
 
         } finally {
             em.close();
-        }
+        }*/
     }
 }

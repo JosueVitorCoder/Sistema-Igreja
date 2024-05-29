@@ -237,6 +237,11 @@ public class viewDashBoard extends javax.swing.JFrame {
         jMenu3.add(jMenuItem5);
 
         jMenuItem2.setText("Balanço de dízimos");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem2);
 
         jMenuBalanco.add(jMenu3);
@@ -304,6 +309,10 @@ public class viewDashBoard extends javax.swing.JFrame {
         jDesktop.add(view);
         view.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments

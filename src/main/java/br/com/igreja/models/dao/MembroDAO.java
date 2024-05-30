@@ -98,6 +98,10 @@ public class MembroDAO {
             membros = query.getResultList();
         }catch(Exception e){
             System.out.println("Error: "+ e.getMessage());
+        }finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
         return membros;
     }
@@ -114,6 +118,10 @@ public class MembroDAO {
             membrosResult = query.getResultList();
         }catch(Exception e){
             System.out.println("Error: "+ e.getMessage());
+        }finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
         
         return membrosResult;

@@ -6,6 +6,7 @@ package br.com.igreja.views;
 
 import br.com.igreja.views.internal.EntradaDeDizimos;
 import br.com.igreja.views.internal.EntradaDeOfertas;
+import br.com.igreja.views.internal.RelatorioDizimos;
 import br.com.igreja.views.internal.SaidaDeMembro;
 import br.com.igreja.views.internal.TabelaDeMembros;
 import br.com.igreja.views.internal.TelaDeCadastroDeMembros;
@@ -236,7 +237,7 @@ public class viewDashBoard extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem5);
 
-        jMenuItem2.setText("Balanço de dízimos");
+        jMenuItem2.setText("Relatório de dízimos");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -311,7 +312,9 @@ public class viewDashBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
+        RelatorioDizimos view = new RelatorioDizimos();
+        jDesktop.add(view);
+        view.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**

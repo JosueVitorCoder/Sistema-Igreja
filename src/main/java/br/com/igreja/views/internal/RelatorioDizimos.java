@@ -4,6 +4,15 @@
  */
 package br.com.igreja.views.internal;
 
+import br.com.igreja.models.Dizimo;
+import br.com.igreja.models.Membro;
+import br.com.igreja.models.dao.DizimoDAO;
+import br.com.igreja.util.JPAUtil;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.persistence.EntityManager;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author demi
@@ -15,6 +24,7 @@ public class RelatorioDizimos extends javax.swing.JInternalFrame {
      */
     public RelatorioDizimos() {
         initComponents();
+        atualizarTabela();
     }
 
     /**
@@ -40,6 +50,7 @@ public class RelatorioDizimos extends javax.swing.JInternalFrame {
         labelValor = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
 
+        setClosable(true);
         setTitle("Relatório de dizimistas");
 
         jComboBoxFiltragem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Anual", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" }));
@@ -130,8 +141,7 @@ public class RelatorioDizimos extends javax.swing.JInternalFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(botaoPesquisar)
-                                        .addGap(33, 33, 33))))
+                                        .addComponent(botaoPesquisar))))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
@@ -197,7 +207,41 @@ public class RelatorioDizimos extends javax.swing.JInternalFrame {
     private javax.swing.JTable tabela;
     // End of variables declaration//GEN-END:variables
 
+    
     private void pesquisa() {
         
+    }
+    String[] column = {"Nome", "Data", "Valor"};
+    DefaultTableModel model = new DefaultTableModel(column, 0);
+    private void atualizarTabela(){
+        DefaultTableModel model = new DefaultTableModel(column, 0);
+        EntityManager em = JPAUtil.getEntityManager();
+        DizimoDAO dao = new DizimoDAO(em);
+        Dizimo dizimo = null;
+        
+        for(int i=0; i<dao.getDizimantesList().size(); i++){
+            dizimo = dao.getDizimantesList().get(i);
+            String[] rowData = {dizimo.getMembro().getNome(), formatarData(dizimo.getData()), String.valueOf(dizimo.getValor())};
+            model.addRow(rowData);
+        }
+        tabela.setModel(model);
+        atualizarValor();
+    }
+    
+    private String formatarData(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String data = sdf.format(date);
+        return data;
+    }
+
+    private void atualizarValor() {
+        double valor = 0.0;
+        EntityManager em = JPAUtil.getEntityManager();
+        DizimoDAO dao = new DizimoDAO(em);
+        
+        for(Dizimo d : dao.getDizimantesList()){
+            valor += d.getValor();
+        }
+        labelValor.setText(String.valueOf(valor));
     }
 }

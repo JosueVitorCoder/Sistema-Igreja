@@ -8,6 +8,7 @@ import br.com.igreja.models.Dizimo;
 import br.com.igreja.models.Membro;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
 /**
@@ -34,6 +35,51 @@ public class DizimoDAO {
             dizimos = query.getResultList();
         }catch(Exception e){
             System.out.println("Algo deu errado no método: 'getDizimantesList()'");
+        }
+        return dizimos;
+    }
+    
+    public List<Dizimo> getPesquisa(int mes, int ano){
+        EntityTransaction transaction = null;
+        TypedQuery<Dizimo> query = null;
+        List<Dizimo> dizimos = null;
+        String jpql = "SELECT d FROM Dizimo d WHERE d.anoData = :ano AND d.mesData = :mes";
+        try{
+            query = em.createQuery(jpql, Dizimo.class);
+            query.setParameter("ano", ano);
+            query.setParameter("mes", mes);
+            dizimos = query.getResultList();
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
+        return dizimos;
+    }
+    
+    public List<Dizimo> getPesquisa(int ano){
+        EntityTransaction transaction = null;
+        TypedQuery<Dizimo> query = null;
+        List<Dizimo> dizimos = null;
+        String jpql = "SELECT d FROM Dizimo d WHERE d.anoData = :ano";
+        try{
+            query = em.createQuery(jpql, Dizimo.class);
+            query.setParameter("ano", ano);
+            dizimos = query.getResultList();
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
         return dizimos;
     }

@@ -10,6 +10,7 @@ import br.com.igreja.models.dao.DizimoDAO;
 import br.com.igreja.util.JPAUtil;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.swing.table.DefaultTableModel;
 
@@ -42,7 +43,7 @@ public class RelatorioDizimos extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
+        jSpinnerAno = new javax.swing.JSpinner();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -75,7 +76,7 @@ public class RelatorioDizimos extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Relatório de dizimistas");
 
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(2024, 2024, null, 1));
+        jSpinnerAno.setModel(new javax.swing.SpinnerNumberModel(2024, 2024, null, 1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Filtro:");
@@ -139,7 +140,7 @@ public class RelatorioDizimos extends javax.swing.JInternalFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jComboBoxFiltragem, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jSpinnerAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(botaoPesquisar))))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -155,7 +156,7 @@ public class RelatorioDizimos extends javax.swing.JInternalFrame {
                     .addComponent(jLabel2))
                 .addGap(19, 19, 19)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinnerAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(botaoPesquisar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -202,25 +203,83 @@ public class RelatorioDizimos extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JSpinner jSpinnerAno;
     private javax.swing.JLabel labelValor;
     private javax.swing.JTable tabela;
     // End of variables declaration//GEN-END:variables
-
-    
+    List<Dizimo> dizimosResult = null;
     private void pesquisa() {
-        
+        EntityManager em = JPAUtil.getEntityManager();
+        DizimoDAO dao = new DizimoDAO(em);
+        if(getMes() != 0 && getMes() != -1){
+           dizimosResult = dao.getPesquisa(getMes(), getAno());
+        }else{
+            dizimosResult = dao.getPesquisa(getAno());
+        }
+        atualizarTabela();
     }
+    
+    private int getMes(){
+        int mes = -1;
+        switch(jComboBoxFiltragem.getSelectedItem().toString()){
+            case "Anual":
+                mes = 0;
+                break;
+            case "Janeiro":
+                mes = 1;
+                break;
+            case "Fevereiro":
+                mes = 2;
+                break;
+            case "Março":
+                mes = 3;
+                break;
+            case "Abril":
+                mes = 4;
+                break;
+            case "Maio":
+                mes = 5;
+                break;
+            case "Junho":
+                mes = 6;
+                break;
+            case "Julho":
+                mes = 7;
+                break;
+            case "Agosto":
+                mes = 8;
+                break;
+            case "Setembro":
+                mes = 9;
+                break;
+            case "Outubro":
+                mes = 10;
+                break;
+            case "Novembro":
+                mes = 11;
+                break;
+            case "Dezembro":
+                mes = 12;
+                break;
+        }
+        return 0;
+    }
+    
+    private int getAno(){
+        return Integer.parseInt(jSpinnerAno.getValue().toString());
+    }
+    
     String[] column = {"Nome", "Data", "Valor"};
     DefaultTableModel model = new DefaultTableModel(column, 0);
     private void atualizarTabela(){
         DefaultTableModel model = new DefaultTableModel(column, 0);
         EntityManager em = JPAUtil.getEntityManager();
         DizimoDAO dao = new DizimoDAO(em);
+        dizimosResult = dao.getDizimantesList();
         Dizimo dizimo = null;
         
-        for(int i=0; i<dao.getDizimantesList().size(); i++){
-            dizimo = dao.getDizimantesList().get(i);
+        for(int i=0; i<dizimosResult.size(); i++){
+            dizimo = dizimosResult.get(i);
             String[] rowData = {dizimo.getMembro().getNome(), formatarData(dizimo.getData()), String.valueOf(dizimo.getValor())};
             model.addRow(rowData);
         }

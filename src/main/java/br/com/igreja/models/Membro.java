@@ -9,6 +9,7 @@ import br.com.igreja.models.enums.Sexo;
 import br.com.igreja.models.enums.StatusCivil;
 import java.awt.Image;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -62,7 +63,7 @@ public class Membro {
     }
 
     public Membro() {}
-
+    
     public Long getId() {
         return id;
     }
@@ -146,4 +147,11 @@ public class Membro {
     public void setArquivado(boolean arquivado) {
         this.arquivado = arquivado;
     }
+
+    @Override
+    public String toString() {
+        return nome;
+    }
+    
+    
 }

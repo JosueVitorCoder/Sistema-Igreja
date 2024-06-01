@@ -4,6 +4,8 @@
  */
 package br.com.igreja.models;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,6 +28,10 @@ public class Dizimo {
     private Long id;
     @Column(name = "data_entrada")
     private Date data;
+    @Column(name = "ano_data")
+    private int anoData;
+    @Column(name = "mes_data")
+    private int mesData;
     private double valor;
     @ManyToOne()
     @JoinColumn(name = "membro_id")
@@ -38,8 +44,22 @@ public class Dizimo {
         this.data = data;
         this.valor = valor;
         this.membro = membro;
+        this.anoData = getAnoData();
+        this.mesData = getMesData();
     }
-
+    
+    public int getAnoData(){
+        LocalDate localDate = data.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	int ano = localDate.getYear();
+        return ano;
+    }
+    
+    public int getMesData(){
+        LocalDate localDate = data.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	int mes = localDate.getMonthValue();
+        return mes;
+    }
+    
     public Date getData() {
         return data;
     }

@@ -247,10 +247,8 @@ public class EntradaDeDizimos extends javax.swing.JInternalFrame {
         MembroDAO dao = new MembroDAO(em);
        model = new DefaultTableModel(columnData, 0);
        List<Membro> membros = dao.getLista();
-       if(membros == null){
-            System.out.println("Lista de membros não pode ser nula.");
-        }else{
-           for(Membro m : membros){
+       if(!membros.isEmpty()){
+            for(Membro m : membros){
                 if(!m.isArquivado()){
                     String[] rowData = {m.getNome(), m.getCargo().toString()};
                     model.addRow(rowData);

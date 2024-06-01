@@ -25,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
 public class SaidaDeMembro extends javax.swing.JInternalFrame {
 
     private viewDashBoard dash;
+    List<Membro> membrosResult = null;
     
     // Strings estáticas que irão corresponder a cada coluna da tabela
     /**
@@ -213,7 +214,11 @@ public class SaidaDeMembro extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         arquivar();
-        atualizarTabela();
+        if(membrosResult == null){
+            atualizarTabela();
+        }else{
+            atualizarTabela(membrosResult);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
@@ -260,16 +265,14 @@ public class SaidaDeMembro extends javax.swing.JInternalFrame {
     
     private Long getId(){
         EntityManager em = JPAUtil.getEntityManager();
-        MembroDAO dao = new MembroDAO(em);
-        return dao.getLista().get(membroSelecinado()).getId();
+        return membrosResult.get(membroSelecinado()).getId();
     }
     
     // Retorna o índice do membro selecionado pelo usuário
     private int membroSelecinado(){
         EntityManager em = JPAUtil.getEntityManager();
-        MembroDAO dao = new MembroDAO(em);
         int index = -1;
-        for(int i = 0; i < dao.getLista().size(); i++){
+        for(int i = 0; i < membrosResult.size(); i++){
             if(tabela.isRowSelected(i)){
                index = i;
             }
@@ -281,9 +284,9 @@ public class SaidaDeMembro extends javax.swing.JInternalFrame {
         EntityManager em = JPAUtil.getEntityManager();
         MembroDAO dao = new MembroDAO(em);
         model = new DefaultTableModel(columnData, 0);
-        List<Membro> membros = dao.getLista();
+        membrosResult = dao.getLista();
        
-        for(Membro m : membros){
+        for(Membro m : membrosResult){
             if(!m.isArquivado()){
                 String[] rowData = {m.getNome(), m.getDataDeNascimento().toString(), m.getCpf(), m.getEndereco(),
                 m.getNumero(), m.getSexo().toString(), m.getCargo().toString(), m.getStatusCivil().toString()};
@@ -313,26 +316,10 @@ public class SaidaDeMembro extends javax.swing.JInternalFrame {
     private void pesquisa(){
         EntityManager em = JPAUtil.getEntityManager();
         MembroDAO dao = new MembroDAO(em);
-        String jpql;
-        TypedQuery<Membro> query;
-        List<Membro> membrosResult = null;
         if(getCargoPesquisa() != null){
-            jpql = "SELECT m FROM Membro m WHERE m.nome LIKE :nome AND m.cargo = :cargo";
-            query = em.createQuery(jpql, Membro.class);
-            query.setParameter("nome", "%"+txtNome.getText()+"%");
-            query.setParameter("cargo", getCargoPesquisa());
-            membrosResult = query.getResultList();
+            membrosResult = dao.pesquisaPorNomeECargo(txtNome.getText(), getCargoPesquisa());
         }else{
-            try{
-                jpql = "SELECT m FROM Membro m WHERE m.nome LIKE :nome";
-                query = em.createQuery(jpql, Membro.class);
-                query.setParameter("nome", "%"+txtNome.getText()+"%");
-                membrosResult = query.getResultList();
-            }catch (Exception e) {
-             // Trate a exceção adequadamente (por exemplo, logar o erro ou mostrar uma mensagem ao usuário)
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao realizar a pesquisa: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-            }
+            membrosResult = dao.pesquisaPorNome(txtNome.getText());
         }
         atualizarTabela(membrosResult);
     }

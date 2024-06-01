@@ -255,13 +255,14 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     // MembroDAO que será ultilizado em um ou mais métodos
-    EntityManager em = JPAUtil.getEntityManager();
-    MembroDAO dao = new MembroDAO(em);
+    
     // Strings estáticas que irão corresponder a cada coluna da tabela
     String[] columnData = {"Nome", "Nascimento", "CPF", "Endereço", "Número", "Sexo", "Cargo", "Status Civil"};
     DefaultTableModel model;
     
     private void atualizarTabela(){
+        EntityManager em = JPAUtil.getEntityManager();
+        MembroDAO dao = new MembroDAO(em);
        model = new DefaultTableModel(columnData, 0);
        List<Membro> membros = dao.getLista();
        
@@ -294,6 +295,8 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
     
     // Retorna o índice do membro selecionado pelo usuário
     private int membroSelecinado(){
+        EntityManager em = JPAUtil.getEntityManager();
+        MembroDAO dao = new MembroDAO(em);
         int index = -1;
         for(int i = 0; i < dao.getLista().size(); i++){
             if(tabela.isRowSelected(i)){
@@ -340,6 +343,8 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
     }
     
     private void pesquisa(){
+        EntityManager em = JPAUtil.getEntityManager();
+        MembroDAO dao = new MembroDAO(em);
         List<Membro> membrosResult = null;
         if(getCargoPesquisa() != null){
             membrosResult = dao.pesquisaPorNomeECargo(txtNome.getText(), getCargoPesquisa());
@@ -377,6 +382,8 @@ public class TabelaDeMembros extends javax.swing.JInternalFrame {
    }
    
    private List<Membro> getMembroList(){
+        EntityManager em = JPAUtil.getEntityManager();
+        MembroDAO dao = new MembroDAO(em);
         List<Membro> membros = new ArrayList<>();
         
         // A lista deve corresponder as exigencias do usuário

@@ -31,53 +31,11 @@ public class Igreja {
 
     public static void main(String[] args) {
         // Aqui faço vários testes aleatórios para testar certas funcionalidades
-
-//        String str = "100,55";
-//        String str2 = "100";
-//        
-//        String[] valor1 = str.split(",");
-//        String[] valor2 = str2.split(",");
-//        
-//        System.out.println("*---Lenght 1: "+ valor1.length);
-//        System.out.println("| 0:"+valor1[0]+"| 1:"+valor1[1]);
-//        System.out.println("*---Lenght 2: "+ valor2.length);
-//        System.out.println("| 0:"+valor2[0]);
-//        
-//        
-//        EntityManager em = JPAUtil.getEntityManager();
-//        MembroDAO membroDAO = new MembroDAO(em);
-//        DizimoDAO dizimoDAO = new DizimoDAO(em);
-//        
-//        List<Membro> membros = membroDAO.getLista();
-//        Date data = new Date();
-//        int ano = data.getYear();
-//        System.out.println("Ano de data: "+ano);
-//        
-//        LocalDate data2 = LocalDate.now();
-//        int ano2 = data2.getYear();
-//        System.out.println("Ano de localDate: "+ano2);
-        
-//        Dizimo dizimo = new Dizimo(data, 400, membros.get(3));
-//        
-//        try{
-//
-//            em.getTransaction().begin();
-//            dizimoDAO.addDizimoAoBanco(dizimo);
-//            em.getTransaction().commit();
-//
-//        }catch (Exception e) {
-//
-//            em.getTransaction().rollback();
-//            e.printStackTrace();
-//
-//        } finally {
-//            em.close();
-//        }
-
-
         EntityManager em = JPAUtil.getEntityManager();
-        MembroDAO dao = new MembroDAO(em);
-        List<Membro> membros = dao.getLista();
-        System.out.println(membros);
+        DizimoDAO dao = new DizimoDAO(em);
+        List<Dizimo> list = dao.getPesquisa(5, 2024);
+        System.out.println(list);
+        
+        
     }
 }

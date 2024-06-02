@@ -40,7 +40,6 @@ public class DizimoDAO {
     }
     
     public List<Dizimo> getPesquisa(int mes, int ano){
-        EntityTransaction transaction = null;
         TypedQuery<Dizimo> query = null;
         List<Dizimo> dizimos = null;
         String jpql = "SELECT d FROM Dizimo d WHERE d.anoData = :ano AND d.mesData = :mes";
@@ -50,9 +49,6 @@ public class DizimoDAO {
             query.setParameter("mes", mes);
             dizimos = query.getResultList();
         } catch (Exception e) {
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-            }
             e.printStackTrace();
         } finally {
             if (em != null && em.isOpen()) {

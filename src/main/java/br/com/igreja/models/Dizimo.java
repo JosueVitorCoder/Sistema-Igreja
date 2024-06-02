@@ -83,4 +83,9 @@ public class Dizimo {
     public void setMembro(Membro membro) {
         this.membro = membro;
     }
+
+    @Override
+    public String toString() {
+        return "Membro: "+membro.getNome()+", valor: "+valor+", data: "+data;
+    }
 }

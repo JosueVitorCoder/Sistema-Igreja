@@ -216,12 +216,15 @@ public class RelatorioDizimos extends javax.swing.JInternalFrame {
         }else{
             dizimosResult = dao.getPesquisa(getAno());
         }
+        System.out.println("Res: "+getMes() + "()" + getAno());
         atualizarTabela();
     }
     
     private int getMes(){
         int mes = -1;
-        switch(jComboBoxFiltragem.getSelectedItem().toString()){
+        String item = jComboBoxFiltragem.getSelectedItem().toString();
+        System.out.println("Item: "+item);
+        switch(item){
             case "Anual":
                 mes = 0;
                 break;
@@ -262,7 +265,7 @@ public class RelatorioDizimos extends javax.swing.JInternalFrame {
                 mes = 12;
                 break;
         }
-        return 0;
+        return mes;
     }
     
     private int getAno(){
@@ -275,7 +278,9 @@ public class RelatorioDizimos extends javax.swing.JInternalFrame {
         DefaultTableModel model = new DefaultTableModel(column, 0);
         EntityManager em = JPAUtil.getEntityManager();
         DizimoDAO dao = new DizimoDAO(em);
-        dizimosResult = dao.getDizimantesList();
+        if(dizimosResult == null){
+           dizimosResult = dao.getDizimantesList(); 
+        }
         Dizimo dizimo = null;
         
         for(int i=0; i<dizimosResult.size(); i++){
@@ -298,7 +303,7 @@ public class RelatorioDizimos extends javax.swing.JInternalFrame {
         EntityManager em = JPAUtil.getEntityManager();
         DizimoDAO dao = new DizimoDAO(em);
         
-        for(Dizimo d : dao.getDizimantesList()){
+        for(Dizimo d : dizimosResult){
             valor += d.getValor();
         }
         labelValor.setText(String.valueOf(valor));

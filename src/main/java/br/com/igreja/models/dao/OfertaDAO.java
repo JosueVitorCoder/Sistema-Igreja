@@ -37,19 +37,22 @@ public class OfertaDAO {
         return ofertas;
     }
     
-    public List<Oferta> getPesquisa(int ano, int mes){
+    public List<Oferta> getPesquisa(int ano, int mes) {
         String jpql = "SELECT o FROM Oferta o WHERE o.anoData = :ano AND o.mesData = :mes";
-        TypedQuery query;
+        TypedQuery<Oferta> query = null;
         List<Oferta> ofertas = null;
-        
-        try{
+        System.out.println("Res: "+mes + "()" + ano);
+        try {
             query = em.createQuery(jpql, Oferta.class);
             query.setParameter("ano", ano);
             query.setParameter("mes", mes);
             ofertas = query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
+            // Lançar a exceção ou tratá-la conforme a necessidade
+            throw new RuntimeException("Erro ao executar a pesquisa de ofertas", e);
         } finally {
+            // Se o EntityManager for gerenciado manualmente, feche-o aqui
             if (em != null && em.isOpen()) {
                 em.close();
             }
@@ -59,7 +62,7 @@ public class OfertaDAO {
     
     public List<Oferta> getPesquisa(int ano){
         String jpql = "SELECT o FROM Oferta o WHERE o.anoData = :ano";
-        TypedQuery query;
+        TypedQuery<Oferta> query = null;
         List<Oferta> ofertas = null;
         
         try{

@@ -6,6 +6,7 @@ package br.com.igreja.views;
 
 import br.com.igreja.views.internal.EntradaDeDizimos;
 import br.com.igreja.views.internal.EntradaDeOfertas;
+import br.com.igreja.views.internal.RelatorioDeOfertas;
 import br.com.igreja.views.internal.RelatorioDizimos;
 import br.com.igreja.views.internal.SaidaDeMembro;
 import br.com.igreja.views.internal.TabelaDeMembros;
@@ -221,7 +222,12 @@ public class viewDashBoard extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem3);
 
-        jMenuItem1.setText("Balanço de Ofertas");
+        jMenuItem1.setText("Relatório de Ofertas");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem1);
 
         jMenuBalanco.add(jMenu2);
@@ -316,6 +322,12 @@ public class viewDashBoard extends javax.swing.JFrame {
         jDesktop.add(view);
         view.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        RelatorioDeOfertas view = new RelatorioDeOfertas();
+        jDesktop.add(view);
+        view.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments

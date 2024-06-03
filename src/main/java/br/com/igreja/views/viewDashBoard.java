@@ -24,7 +24,7 @@ public class viewDashBoard extends javax.swing.JFrame {
      */
     public viewDashBoard() {
         initComponents();
-        setExtendedState(MAXIMIZED_BOTH);
+        //setExtendedState(MAXIMIZED_BOTH);
     }
 
     /**

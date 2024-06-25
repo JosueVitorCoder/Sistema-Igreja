@@ -291,6 +291,7 @@ public class TelaDeCadastroDeMembros extends javax.swing.JInternalFrame {
 
     private void botaoCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCadastrarActionPerformed
         persistir();
+        this.dispose();
     }//GEN-LAST:event_botaoCadastrarActionPerformed
 
     private void botaoCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCancelarActionPerformed
@@ -472,6 +473,7 @@ public class TelaDeCadastroDeMembros extends javax.swing.JInternalFrame {
             em.getTransaction().begin();
             dao.addMembroBD(getMembro());
             em.getTransaction().commit();
+            JOptionPane.showMessageDialog(rootPane, "Membro cadastrado com sucesso.");
         }catch(Exception e){
             em.getTransaction().rollback();
             e.printStackTrace();

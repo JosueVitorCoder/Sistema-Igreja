@@ -156,7 +156,7 @@ public class TelaDeCadastroDeMembros extends javax.swing.JInternalFrame {
 
         jComboBoxStatusCivil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status Civil:", "Casado(a)", "Solteiro(a)", "Separado(a)", "Divorciado(a)", "União estável" }));
 
-        jComboBoxCargo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cargo:", "Pastor(a)", "Diácono(a)", "Presbítero(a)", "Evangelista", "Missionário(a)" }));
+        jComboBoxCargo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cargo:", "Pastor(a)", "Diácono(a)", "Presbítero(a)", "Evangelista", "Missionário(a)", "N/A" }));
         jComboBoxCargo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxCargoActionPerformed(evt);
@@ -423,6 +423,8 @@ public class TelaDeCadastroDeMembros extends javax.swing.JInternalFrame {
                 cargo = Cargo.EVANGELISTA;
             }else if(jComboBoxCargo.getSelectedItem().toString().equalsIgnoreCase("Missionário(a)")){
                 cargo = Cargo.MISSIONÁRIO;
+            }else if(jComboBoxCargo.getSelectedItem().toString().equalsIgnoreCase("N/A")){
+                cargo = Cargo.NA;
             }    
         }
         return cargo;

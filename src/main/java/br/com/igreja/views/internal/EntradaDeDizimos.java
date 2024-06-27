@@ -289,6 +289,7 @@ public class EntradaDeDizimos extends javax.swing.JInternalFrame {
         }else{
             System.out.println("Lista 'MembrosResult' esta nulo.");
         }
+        System.out.println(index);
         return index;
     }
 

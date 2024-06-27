@@ -28,7 +28,7 @@ public class MembroDAO {
     }
     
     public List<Membro> getLista(){
-        String jpql = "SELECT m FROM Membro m";
+        String jpql = "SELECT m FROM Membro m WHERE m.arquivado = false";
         TypedQuery<Membro> membros = em.createQuery(jpql, Membro.class);
         return membros.getResultList();
     }

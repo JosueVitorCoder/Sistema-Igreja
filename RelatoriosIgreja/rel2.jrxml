@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rel1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="53a00a2c-b6cf-4b17-b0a7-ef73071babd4">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Conexao_db.jrdax"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
 	<queryString>
 		<![CDATA[SELECT membros.nome, dizimos.*
 FROM dizimos
@@ -44,10 +44,10 @@ JOIN membros ON dizimos.membro_id = membros.id]]>
 		<property name="com.jaspersoft.studio.field.tree.path" value="dizimos"/>
 	</field>
 	<background>
-		<band splitType="Stretch"/>
+		<band height="78" splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="88" splitType="Stretch">
+		<band height="111" splitType="Stretch">
 			<staticText>
 				<reportElement x="190" y="20" width="210" height="30" uuid="02a127a8-63df-42d6-b9b7-3fc43e152bd6">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -58,16 +58,12 @@ JOIN membros ON dizimos.membro_id = membros.id]]>
 				</textElement>
 				<text><![CDATA[Relatório de Dizimos]]></text>
 			</staticText>
-			<textField pattern="MMMMM dd, yyyy">
-				<reportElement x="250" y="60" width="93" height="20" uuid="80a198ef-785b-4a25-a83a-b823e8969650"/>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="50" splitType="Stretch">
+		<band height="42" splitType="Stretch">
 			<staticText>
-				<reportElement x="270" y="15" width="40" height="20" uuid="eed653b9-96d0-4083-94b7-106a7456035c">
+				<reportElement x="270" y="11" width="40" height="20" uuid="eed653b9-96d0-4083-94b7-106a7456035c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -79,12 +75,15 @@ JOIN membros ON dizimos.membro_id = membros.id]]>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="37" splitType="Stretch"/>
+		<band height="20" splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="45" splitType="Stretch">
+		<band height="57" splitType="Stretch">
+			<rectangle>
+				<reportElement x="40" y="10" width="470" height="35" uuid="e3955b19-20d5-4799-bb17-99d4f2eede1c"/>
+			</rectangle>
 			<textField>
-				<reportElement x="260" y="20" width="90" height="20" uuid="83bf10ee-512e-403c-b330-9e6942dacbdc">
+				<reportElement x="270" y="20" width="90" height="20" uuid="83bf10ee-512e-403c-b330-9e6942dacbdc">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b06c7eab-8542-4180-a1c8-fd58b8853a65"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{data_entrada}]]></textFieldExpression>
@@ -93,6 +92,9 @@ JOIN membros ON dizimos.membro_id = membros.id]]>
 				<reportElement x="180" y="20" width="80" height="20" uuid="c95305e3-e48e-4147-898c-d268139388cc">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b06c7eab-8542-4180-a1c8-fd58b8853a65"/>
 				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Data de Entrada:]]></text>
 			</staticText>
 			<textField>
@@ -102,9 +104,12 @@ JOIN membros ON dizimos.membro_id = membros.id]]>
 				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="50" y="20" width="30" height="20" uuid="6e8097a2-9a3e-4639-87b8-6a058df6e9ab">
+				<reportElement x="50" y="20" width="40" height="20" uuid="6e8097a2-9a3e-4639-87b8-6a058df6e9ab">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="af021490-ee10-4824-b5fd-49930c722091"/>
 				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Nome:]]></text>
 			</staticText>
 			<textField>
@@ -117,6 +122,9 @@ JOIN membros ON dizimos.membro_id = membros.id]]>
 				<reportElement x="380" y="20" width="40" height="20" uuid="1c346e91-88d0-4157-bd72-ba0db8f5bdb6">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2644fa4c-4fec-4327-9111-0b83d16c792c"/>
 				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Valor:]]></text>
 			</staticText>
 		</band>

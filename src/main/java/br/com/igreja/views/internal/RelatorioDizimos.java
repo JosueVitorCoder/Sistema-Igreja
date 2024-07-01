@@ -217,12 +217,12 @@ public class RelatorioDizimos extends javax.swing.JInternalFrame {
     
     private void botaoImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoImprimirActionPerformed
         ConectaDAO dao = new ConectaDAO();
-    Connection con = dao.connectDB();
+        Connection con = dao.connectDB();
 
         try {
             int ok = JOptionPane.showConfirmDialog(null, "Confirma a impressão do relatório?", "Impressão", JOptionPane.YES_NO_OPTION);
             if (ok == JOptionPane.YES_OPTION) {
-                JasperPrint print = JasperFillManager.fillReport("C:\\Users\\demi\\JaspersoftWorkspace\\RelatoriosIgreja\\rel2.jasper", null, con);
+                JasperPrint print = JasperFillManager.fillReport(".\\RelatoriosIgreja\\rel2.jasper", null, con);
                 JasperViewer.viewReport(print, false); // Exibir o relatório
             }
         } catch (NoClassDefFoundError e) {

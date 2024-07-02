@@ -1,7 +1,9 @@
 package br.com.igreja;
 
+import br.com.igreja.models.Contrato;
 import br.com.igreja.models.Oferta;
 import br.com.igreja.models.dao.ConectaDAO;
+import br.com.igreja.models.dao.ContratoDAO;
 import br.com.igreja.models.dao.OfertaDAO;
 import br.com.igreja.util.JPAUtil;
 import java.sql.Connection;
@@ -20,31 +22,18 @@ public class Igreja {
 
     public static void main(String[] args) {
         // Aqui faço vários testes aleatórios para testar certas funcionalidades
+        Contrato contrato = new Contrato("yago", 6, 750.00);
+        EntityManager em = JPAUtil.getEntityManager();
+        ContratoDAO dao = new ContratoDAO(em);
         
-        ConectaDAO dao = new ConectaDAO();
-        Connection con = dao.connectDB();
-
-        try {
-            // Exemplo de uma consulta simples
-            String sql = "SELECT * FROM membros";
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-
-            while (rs.next()) {
-                // Supondo que sua tabela tenha uma coluna "nome"
-                String nome = rs.getString("nome");
-                System.out.println("Nome: " + nome);
-            }
-        } catch (SQLException e) {
-            System.out.println("Erro ao acessar o banco de dados: " + e.getMessage());
-        } finally {
-            try {
-                if (con != null) {
-                    con.close();
-                }
-            } catch (SQLException e) {
-                System.out.println("Erro ao fechar a conexão: " + e.getMessage());
-            }
+        try{
+            em.getTransaction().begin();
+            dao.addContratoDataAoBanco(contrato);
+            em.getTransaction().commit();
+        }catch(Exception e){
+            em.getTransaction().rollback();
+        }finally{
+            em.close();
         }
     }
 }

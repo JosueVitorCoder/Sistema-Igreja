@@ -4,6 +4,7 @@
  */
 package br.com.igreja.models.dao;
 
+import br.com.igreja.models.Contrato;
 import javax.persistence.EntityManager;
 
 /**
@@ -17,5 +18,7 @@ public class ContratoDAO {
         this.em = em;
     }
     
-    
+    public void addContratoDataAoBanco(Contrato contrato){
+        this.em.persist(contrato);
+    }
 }

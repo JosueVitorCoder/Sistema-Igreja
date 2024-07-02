@@ -8,6 +8,7 @@ package br.com.igreja.models;
  *
  * @author demi
  */
+
 public class Contrato {
     private Long id;
     private String nomeLocatario;

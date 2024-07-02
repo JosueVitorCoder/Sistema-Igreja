@@ -36,6 +36,13 @@ ano_data int,
 mes_data int
 );
 
+create table contratoData(
+id int not null auto_increment primary key,
+nomeLocatario varchar(255) not null,
+vigenciaMeses int not null,
+valorAluguel double not null
+);
+
 select * from membros;
 select * from dizimos;
 select * from ofertas;

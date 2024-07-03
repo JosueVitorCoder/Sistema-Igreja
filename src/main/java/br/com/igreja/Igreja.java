@@ -22,13 +22,13 @@ public class Igreja {
 
     public static void main(String[] args) {
         // Aqui faço vários testes aleatórios para testar certas funcionalidades
-        Contrato contrato = new Contrato("yago", 6, 750.00);
+        Contrato contrato = new Contrato("Igor", "6 Meses", "R$ 750,00 (SETECENTOS E CINQUENTA REAIS)");
         EntityManager em = JPAUtil.getEntityManager();
         ContratoDAO dao = new ContratoDAO(em);
         
         try{
             em.getTransaction().begin();
-            dao.addContratoDataAoBanco(contrato);
+            //dao.addContratoDataAoBanco(contrato);
             em.getTransaction().commit();
         }catch(Exception e){
             em.getTransaction().rollback();

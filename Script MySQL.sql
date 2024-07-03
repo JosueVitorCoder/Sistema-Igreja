@@ -39,8 +39,8 @@ mes_data int
 create table contratoData(
 id int not null auto_increment primary key,
 nomeLocatario varchar(255) not null,
-vigenciaMeses int not null,
-valorAluguel double not null
+vigenciaMeses varchar(255) not null,
+valorAluguel varchar(500) not null
 );
 
 select * from membros;

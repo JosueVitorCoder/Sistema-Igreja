@@ -41,6 +41,7 @@ public class viewDashBoard extends javax.swing.JFrame {
         jPopupMenu1 = new javax.swing.JPopupMenu();
         jSeparator2 = new javax.swing.JSeparator();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
+        jPopupMenu2 = new javax.swing.JPopupMenu();
         jPanelPrincipal = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -65,6 +66,8 @@ public class viewDashBoard extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuAlugues = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenuDocuments = new javax.swing.JMenu();
 
         jMenu4.setText("jMenu4");
@@ -257,6 +260,19 @@ public class viewDashBoard extends javax.swing.JFrame {
 
         jMenuAlugues.setIcon(new javax.swing.ImageIcon("C:\\Users\\demi\\Documents\\NetBeansProjects\\Igreja\\src\\main\\java\\br\\com\\igreja\\imagens\\Aluguéis.png")); // NOI18N
         jMenuAlugues.setText("Aluguéis    |");
+
+        jMenu1.setText("Contrato");
+
+        jMenuItem4.setText("Gerar arquivo do contrato");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem4);
+
+        jMenuAlugues.add(jMenu1);
+
         jMenuBar1.add(jMenuAlugues);
 
         jMenuDocuments.setIcon(new javax.swing.ImageIcon("C:\\Users\\demi\\Documents\\NetBeansProjects\\Igreja\\src\\main\\java\\br\\com\\igreja\\imagens\\Documentos.png")); // NOI18N
@@ -329,6 +345,10 @@ public class viewDashBoard extends javax.swing.JFrame {
         view.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -371,6 +391,7 @@ public class viewDashBoard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
@@ -382,6 +403,7 @@ public class viewDashBoard extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItemCadastroMembros;
     private javax.swing.JMenuItem jMenuItemMembrosCadastrados;
@@ -391,6 +413,7 @@ public class viewDashBoard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanelPrincipal;
     private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JPopupMenu jPopupMenu2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel labelFotoSistema;

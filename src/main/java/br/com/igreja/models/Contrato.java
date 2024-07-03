@@ -21,10 +21,10 @@ public class Contrato {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nomeLocatario;
-    private Integer vigenciaMeses;
-    private Double valorAluguel;
+    private String vigenciaMeses;
+    private String valorAluguel;
 
-    public Contrato(String nomeLocatario, Integer vigenciaMeses, Double valorAluguel) {
+    public Contrato(String nomeLocatario, String vigenciaMeses, String valorAluguel) {
         this.nomeLocatario = nomeLocatario;
         this.vigenciaMeses = vigenciaMeses;
         this.valorAluguel = valorAluguel;
@@ -37,11 +37,11 @@ public class Contrato {
         return nomeLocatario;
     }
 
-    public Integer getVigenciaMeses() {
+    public String getVigenciaMeses() {
         return vigenciaMeses;
     }
 
-    public Double getValorAluguel() {
+    public String getValorAluguel() {
         return valorAluguel;
     }
 }

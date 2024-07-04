@@ -4,6 +4,7 @@
  */
 package br.com.igreja.views;
 
+import br.com.igreja.views.internal.DadosContrato;
 import br.com.igreja.views.internal.EntradaDeDizimos;
 import br.com.igreja.views.internal.EntradaDeOfertas;
 import br.com.igreja.views.internal.RelatorioDeOfertas;
@@ -347,6 +348,9 @@ public class viewDashBoard extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
+        DadosContrato view = new DadosContrato();
+        jDesktop.add(view);
+        view.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**

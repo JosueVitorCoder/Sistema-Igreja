@@ -117,13 +117,11 @@ public class ListaDeAquivados extends javax.swing.JInternalFrame {
         EntityManager em = JPAUtil.getEntityManager();
         MembroDAO dao = new MembroDAO(em);
         model = new DefaultTableModel(columnData, 0);
-        List<Membro> membros = dao.getLista();
+        List<Membro> membros = dao.pesquisaPorArquivados();
        
-            for(Membro m : membros){
-            if(m.isArquivado()){
-               String[] rowData = {m.getNome(),m.getCpf()};
-               model.addRow(rowData);
-            }
+        for(Membro m : membros){
+           String[] rowData = {m.getNome(),m.getCpf()};
+           model.addRow(rowData);
         }
        tabela.setModel(model);
     }
@@ -141,12 +139,7 @@ public class ListaDeAquivados extends javax.swing.JInternalFrame {
     private Long getId(){
         EntityManager em = JPAUtil.getEntityManager();
         MembroDAO dao = new MembroDAO(em);
-        List<Membro> membrosArquivados = new ArrayList<>(); 
-        for(Membro m : dao.getLista()){
-            if(m.isArquivado()){
-                membrosArquivados.add(m);
-            }
-        }
+        List<Membro> membrosArquivados = dao.pesquisaPorArquivados(); 
         return membrosArquivados.get(membroSelecinado()).getId();
     }
     

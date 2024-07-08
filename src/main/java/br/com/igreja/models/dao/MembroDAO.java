@@ -126,4 +126,10 @@ public class MembroDAO {
         
         return membrosResult;
     }
+    
+    public List<Membro> pesquisaPorArquivados(){
+        String jpql = "SELECT m FROM Membro m WHERE m.arquivado = true";
+        TypedQuery<Membro> membros = em.createQuery(jpql, Membro.class);
+        return membros.getResultList();
+    }
 }

@@ -30,7 +30,10 @@ public class Contrato {
         this.valorAluguel = valorAluguel;
     }
 
-    public Contrato() {
+    public Contrato(Contrato contrato) {
+        this.nomeLocatario = contrato.getNomeLocatario();
+        this.vigenciaMeses = contrato.getVigenciaMeses();
+        this.valorAluguel = contrato.getValorAluguel();
     }
 
     public String getNomeLocatario() {
@@ -43,5 +46,15 @@ public class Contrato {
 
     public String getValorAluguel() {
         return valorAluguel;
+    }
+    
+    public String cabecalho(){
+        return "Locador: ELIZIO BATISTA LISBOA\n" +
+                "Locatário (a) (s): "+nomeLocatario+"\n"+
+                "Endereço do imóvel do aluguel: QNP 05 CONJUNTO R LOTE 49 CASA 03\n" +
+                "CEILANDIA/DF\n" +
+                "Vigência: "+vigenciaMeses+"\n" +
+                "Valor do aluguel: R$ "+valorAluguel+"\n" +
+                "Reajuste: De acordo com 0 - (IGPM) ";
     }
 }

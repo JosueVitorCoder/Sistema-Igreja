@@ -5,11 +5,17 @@
 package br.com.igreja.views.internal;
 
 import br.com.igreja.models.Contrato;
+import br.com.igreja.models.dao.ConectaDAO;
 import br.com.igreja.models.dao.ContratoDAO;
 import br.com.igreja.util.JPAUtil;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.SQLException;
 import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -162,7 +168,8 @@ public class DadosContrato extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoGerarContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoGerarContratoActionPerformed
-        // TODO add your handling code here:
+//        Contrato contrato = new Contrato(getContrato());
+//        System.out.println(contrato.cabecalho());
         gerarContrato();
     }//GEN-LAST:event_botaoGerarContratoActionPerformed
 
@@ -195,11 +202,12 @@ public class DadosContrato extends javax.swing.JInternalFrame {
                // Inicia a transação
                em.getTransaction().begin();
                // Adiciona os dados do contrato ao banco de dados
-               dao.addContratoDataAoBanco(getContrato());
+               //dao.addContratoDataAoBanco(getContrato());
                // Comita a transação
-               em.getTransaction().commit();
+               //em.getTransaction().commit();
                // Exibe mensagem de sucesso
                JOptionPane.showMessageDialog(rootPane, "Dados cadastrados com sucesso!");
+               imprimirContrato();
            } catch (Exception e) {
                // Faz o rollback da transação em caso de erro
                em.getTransaction().rollback();
@@ -214,6 +222,30 @@ public class DadosContrato extends javax.swing.JInternalFrame {
            // Exibe mensagem de aviso se todos os campos não estiverem preenchidos
            JOptionPane.showMessageDialog(rootPane, "Todos os campos são obrigatórios!");
        }
+   }
+   
+   public void imprimirContrato(){
+       
+        ConectaDAO dao = new ConectaDAO();
+        Connection con = dao.connectDB();
+
+        try {
+            JasperPrint print = JasperFillManager.fillReport(".\\RelatoriosIgreja\\contrato.jasper", null, con);
+            JasperViewer.viewReport(print, false); // Exibir o relatório
+            
+        } catch (NoClassDefFoundError e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar imprimir relatório: " + e.getMessage());
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Erro ao fechar a conexão: " + e.getMessage());
+            }
+        }
    }
 
     /**

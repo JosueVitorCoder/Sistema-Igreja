@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Contrato" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f8bda522-a275-4773-a630-d4f387c35c2a">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<queryString>
+		<![CDATA[select * from contratodata;]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contratodata"/>
+	</field>
+	<field name="nomeLocatario" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nomeLocatario"/>
+		<property name="com.jaspersoft.studio.field.label" value="nomeLocatario"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contratodata"/>
+	</field>
+	<field name="vigenciaMeses" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="vigenciaMeses"/>
+		<property name="com.jaspersoft.studio.field.label" value="vigenciaMeses"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contratodata"/>
+	</field>
+	<field name="valorAluguel" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="valorAluguel"/>
+		<property name="com.jaspersoft.studio.field.label" value="valorAluguel"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contratodata"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="100" y="20" width="370" height="30" uuid="025c419c-8d0e-4cad-bedb-fd8f27950622"/>
+				<textElement>
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONTRATO DE LOCAÇÃO DE IMÓVEL]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

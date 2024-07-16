@@ -40,7 +40,9 @@ create table contratoData(
 id int not null auto_increment primary key,
 nomeLocatario varchar(255) not null,
 vigenciaMeses varchar(255) not null,
-valorAluguel varchar(500) not null
+valorAluguel varchar(500) not null,
+cabecalho text not null,
+primeiraParte text not null
 );
 
 select * from membros;

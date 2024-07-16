@@ -9,8 +9,11 @@ import br.com.igreja.models.dao.ConectaDAO;
 import br.com.igreja.models.dao.ContratoDAO;
 import br.com.igreja.util.JPAUtil;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -168,8 +171,7 @@ public class DadosContrato extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoGerarContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoGerarContratoActionPerformed
-//        Contrato contrato = new Contrato(getContrato());
-//        System.out.println(contrato.cabecalho());
+
         gerarContrato();
     }//GEN-LAST:event_botaoGerarContratoActionPerformed
 
@@ -247,6 +249,40 @@ public class DadosContrato extends javax.swing.JInternalFrame {
             }
         }
    }
+   
+   public void imprimirContrato(String nomeLocatario, String vigenciaMeses, String valorAluguel, String cabecalho, String primeiraParte) {
+    ConectaDAO dao = new ConectaDAO();
+    Connection con = dao.connectDB();
+
+    try {
+        // Criar um mapa de parâmetros
+        Map<String, Object> parametros = new HashMap<>();
+        parametros.put("nomeLocatario", nomeLocatario);
+        parametros.put("vigenciaMeses", vigenciaMeses);
+        parametros.put("valorAluguel", valorAluguel);
+        parametros.put("cabecalho", cabecalho);
+        parametros.put("primeiraParte", primeiraParte);
+
+        // Preencher o relatório com a conexão ao banco de dados e os parâmetros
+        JasperPrint print = JasperFillManager.fillReport(".\\RelatoriosIgreja\\contrato.jasper", parametros, con);
+
+        // Exibir o relatório
+        JasperViewer.viewReport(print, false);
+    } catch (NoClassDefFoundError e) {
+        e.printStackTrace();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Erro ao tentar imprimir relatório: " + e.getMessage());
+    } finally {
+        try {
+            if (con != null) {
+                con.close();
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao fechar a conexão: " + e.getMessage());
+            }
+        }
+    }
+
 
     /**
      * Cria e retorna um objeto Contrato com os valores dos campos de texto.

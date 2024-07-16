@@ -23,6 +23,7 @@ public class Contrato {
     private String nomeLocatario;
     private String vigenciaMeses;
     private String valorAluguel;
+    
 
     public Contrato(String nomeLocatario, String vigenciaMeses, String valorAluguel) {
         this.nomeLocatario = nomeLocatario;
@@ -46,15 +47,5 @@ public class Contrato {
 
     public String getValorAluguel() {
         return valorAluguel;
-    }
-    
-    public String cabecalho(){
-        return "Locador: ELIZIO BATISTA LISBOA\n" +
-                "Locatário (a) (s): "+nomeLocatario+"\n"+
-                "Endereço do imóvel do aluguel: QNP 05 CONJUNTO R LOTE 49 CASA 03\n" +
-                "CEILANDIA/DF\n" +
-                "Vigência: "+vigenciaMeses+"\n" +
-                "Valor do aluguel: R$ "+valorAluguel+"\n" +
-                "Reajuste: De acordo com 0 - (IGPM) ";
     }
 }

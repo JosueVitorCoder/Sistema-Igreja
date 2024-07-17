@@ -15,9 +15,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -32,6 +29,7 @@ public class PdfItext {
     //Instancias iText
     private Document documentoPdf = new Document();
     private FileOutputStream caminho;
+    
     // Este método gera o Contrato pdf
     public void gerarContrato(Contrato contrato){
          // Verificar e criar diretório se não existir
@@ -52,6 +50,10 @@ public class PdfItext {
             documentoPdf.add(new Paragraph("\n"));
             // Criando cabeçalho de acordo com os dados do objeto 'contrato'
             criarCabecalho(contrato.getNomeLocatario(), contrato.getVigenciaMeses(), contrato.getValorAluguel());
+            // Espaçamento
+            documentoPdf.add(new Paragraph("\n"));
+            // Criando segunda parte do cabecalho
+            criarSegundaParteCabecalho();
             
         } catch (DocumentException | FileNotFoundException e) {
             e.printStackTrace();
@@ -61,6 +63,7 @@ public class PdfItext {
             }
         }
     }
+    
     // Este método cria o cabeçalho
     private void criarCabecalho(String nomeLocatario, String vigenciaMeses, String valorAluguel){
         if(!documentoPdf.isOpen()){
@@ -85,6 +88,31 @@ public class PdfItext {
             documentoPdf.add(contractDetails);
         } catch (DocumentException e) {
             System.out.println("Erro ao criar cabeçalho.");
+            e.printStackTrace();
+        }
+    }
+    
+    private void criarSegundaParteCabecalho(){
+        // Parágrafo com formatação mista para a introdução do contrato
+            Paragraph contractIntroduction = new Paragraph();
+            contractIntroduction.setFirstLineIndent(150); // Indentação da primeira linha
+            contractIntroduction.add(new Chunk("Por este instrumento de contrato de locação de imóvel, entre as partes na qualidade de ", normalFont));
+            contractIntroduction.add(new Chunk("PROPRIETÁRIO o Sr. ", normalFont));
+            contractIntroduction.add(new Chunk("ELIZIO BATISTA LISBOA", boldFont));
+            contractIntroduction.add(new Chunk(", brasileira, portadora do RG XXXXXX MINISTERIO DA DEFESA COMANDO DA ARONAUTICA e do CPF: ", normalFont));
+            contractIntroduction.add(new Chunk("XXXXXXXXXXX, residente e domiciliado nesta capital, e na qualidade de ", normalFont));
+            contractIntroduction.add(new Chunk("LOCATÁRIO Sr. ", normalFont));
+            contractIntroduction.add(new Chunk("MARIA DO AMPARO TEIXEIRA", boldFont));
+            contractIntroduction.add(new Chunk(", brasileira, portadora do RG ", normalFont));
+            contractIntroduction.add(new Chunk("xxxxxx SSP/PI e do CPF: ", normalFont));
+            contractIntroduction.add(new Chunk("xxxxxxx", normalFont));
+            contractIntroduction.add(new Chunk(" residente e domiciliado nesta capital. São contratados pelo presente instrumento particulares de locação de imóvel residencial, abaixo caracterizado, mediante as cláusulas e condições a seguir enumeradas:", normalFont));
+
+        try {
+            // Adicionar a introdução do contrato ao documento
+            documentoPdf.add(contractIntroduction);
+        } catch (DocumentException e) {
+            System.out.println("Erro ao criar segunda parte do cabeçalho.");
             e.printStackTrace();
         }
     }

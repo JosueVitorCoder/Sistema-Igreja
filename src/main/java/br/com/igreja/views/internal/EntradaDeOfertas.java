@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.EntityManager;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -123,6 +124,7 @@ public class EntradaDeOfertas extends javax.swing.JInternalFrame {
 
     private void botaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoActionPerformed
         cadastrarOferta();
+        this.dispose();
     }//GEN-LAST:event_botaoActionPerformed
 
 
@@ -175,6 +177,7 @@ public class EntradaDeOfertas extends javax.swing.JInternalFrame {
             em.getTransaction().begin();
             dao.addOfertaAoBanco(getOferta());
             em.getTransaction().commit();
+            JOptionPane.showMessageDialog(null, "Salvo com sucesso!");
         }catch (Exception e) {
             em.getTransaction().rollback();
             e.printStackTrace();
